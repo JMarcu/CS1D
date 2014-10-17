@@ -1,0 +1,76 @@
+******************************************************
+*   PROGRAMMED BY : James Marcu
+*   STUDENT ID    : 374443
+*   CLASS         : CS1D - Data Structures
+*   SECTION       : TTH 3:30 PM
+*   ASSIGNMENT #3 : Stacks
+******************************************************
+
+This program will read in data from a file into a stack then output it to you. 
+Because it was read into a stack the first output will be in reverse order from 
+the file. The program will then reverse the stack and output the data to you 
+again. This will be in same order as the original file, and in the reverse order 
+of the first time it was output to you. You may continue entering files for the 
+as long as you wish.
+
+Please enter the name of the file you would like to read from (exit to quit): StringInput.txt
+Your data from the file: 
+Item #1: Paula
+Item #2: Eric
+Item #3: Jen
+Item #4: Maria
+Item #5: Jack
+Item #6: JoAnn
+
+Your data, now reversed: 
+Item #1: JoAnn
+Item #2: Jack
+Item #3: Maria
+Item #4: Jen
+Item #5: Eric
+Item #6: Paula
+
+Processing of file complete.
+
+Please enter the name of the file you would like to read from (exit to quit): IntInput.txt
+Your data from the file: 
+Item #1: 354
+Item #2: 12
+Item #3: 9833
+Item #4: 8436
+Item #5: 123
+Item #6: 88
+Item #7: 88
+Item #8: 98
+
+Your data, now reversed: 
+Item #1: 98
+Item #2: 88
+Item #3: 88
+Item #4: 123
+Item #5: 8436
+Item #6: 9833
+Item #7: 12
+Item #8: 354
+
+Processing of file complete.
+
+Please enter the name of the file you would like to read from (exit to quit): DoubleInput.txt
+Your data from the file: 
+Item #1: 12.3
+Item #2: 9833.12
+Item #3: 8445.56
+Item #4: 743.765
+Item #5: 2388.12
+
+Your data, now reversed: 
+Item #1: 2388.12
+Item #2: 743.765
+Item #3: 8445.56
+Item #4: 9833.12
+Item #5: 12.3
+
+Processing of file complete.
+
+Please enter the name of the file you would like to read from (exit to quit): exit
+Program has closed. Thank you for using this program.

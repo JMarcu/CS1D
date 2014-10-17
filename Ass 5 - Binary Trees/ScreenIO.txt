@@ -1,0 +1,28 @@
+******************************************************
+*   PROGRAMMED BY : James Marcu
+*   STUDENT ID    : 374443
+*   CLASS         : CS1D
+*   SECTION       : TTh 3:30 PM
+*   ASSIGNMENT #5 : Binary Trees
+******************************************************
+
+This program is designed to test the implementation of a binary tree ADT. It 
+uses hardcoded input to construct and traverse a binary tree.
+
+The tree is empty
+
+Adding 'A' to the binary tree.
+Adding 'B' to the binary tree.
+Adding 'C' to the binary tree.
+Adding 'D' to the binary tree.
+Adding 'E' to the binary tree.
+Adding 'F' to the binary tree.
+Adding 'G' to the binary tree.
+
+The tree is not empty
+The tree has 7nodes
+Inorder Traversal: A B D F C E G 
+Preorder Traversal: A B D F C E G 
+Postorder Traversal: D F B E G C A 
+
+Program has finished and will now exit.

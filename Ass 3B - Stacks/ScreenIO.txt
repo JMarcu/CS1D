@@ -1,0 +1,32 @@
+******************************************************
+*   PROGRAMMED BY : James Marcu
+*   STUDENT ID    : 374443
+*   CLASS         : CS1D
+*   SECTION       : TTh 3:30 PM
+*   ASSIGNMENT #3 : Stacks
+******************************************************
+
+Welcome. This program will ask you for algebraic expressions and will tell you 
+if you have used the correct number and type of grouping symbols (i.e. '(', '[', 
+and '{'). You may enter as many expressions into the program as you like.
+
+Please enter an expression to check ('exit' to quit): (2x + 5) (6x+4)
+This expression's use of grouping symbols is valid.
+
+Please enter an expression to check ('exit' to quit): [(8x+5) - 4x[9x+3]]
+This expression's use of grouping symbols is valid.
+
+Please enter an expression to check ('exit' to quit): {(8x+5) - 5x[9x+3]}
+This expression's use of grouping symbols is valid.
+
+Please enter an expression to check ('exit' to quit): (((8x+5) - x[9x+3])))
+This expression's use of grouping symbols is invalid.
+
+Please enter an expression to check ('exit' to quit): {(8x+5) - 6x[9x+3]]
+This expression's use of grouping symbols is invalid.
+
+Please enter an expression to check ('exit' to quit): {2x+3} {7x+8}
+This expression's use of grouping symbols is valid.
+
+Please enter an expression to check ('exit' to quit): exit
+Thank you for using this program. The program will now exit.

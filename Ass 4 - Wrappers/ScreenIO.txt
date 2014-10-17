@@ -1,0 +1,45 @@
+******************************************************
+*   PROGRAMMED BY : James Marcu
+*   STUDENT ID    : 374443
+*   CLASS         : CS1D
+*   SECTION       : TTh 3:30 PM
+*   ASSIGNMENT #3 : Stacks
+******************************************************
+
+This program tests a Queue, which was created by wrapping a deque, which was 
+itself created by wrapping a doubly linked list. It calls the member functions 
+of the queue and outputs the results.
+
+The queue is 0 elements long.
+The queue is empty.
+
+Now adding "A man, a plan, a canal, Panama" to the back of the queue.
+Now adding "Was it a car or a cat I saw?" to the back of the queue.
+Now adding "Sit on a potato pan, Otis" to the back of the queue.
+Now adding "Isn't this a cool class?" to the back of the queue.
+
+The queue is not empty.
+
+The queue is 4 elements long.
+The front element of the queue is "A man, a plan, a canal, Panama".
+Now removing "A man, a plan, a canal, Panama" from the front of the queue.
+
+The queue is 3 elements long.
+The front element of the queue is "Was it a car or a cat I saw?".
+Now removing "Was it a car or a cat I saw?" from the front of the queue.
+
+The queue is 2 elements long.
+The front element of the queue is "Sit on a potato pan, Otis".
+Now removing "Sit on a potato pan, Otis" from the front of the queue.
+
+The queue is 1 elements long.
+The front element of the queue is "Isn't this a cool class?".
+Now removing "Isn't this a cool class?" from the front of the queue.
+
+The queue is 0 elements long.
+The queue is empty.
+
+ERROR: front on empty queue
+ERROR: dequeue on empty queue
+
+All method calls successful. Program will now quit.
