@@ -1,0 +1,22 @@
+******************************************************
+*   PROGRAMMED BY : James Marcu
+*   STUDENT ID    : 374443
+*   CLASS         : CS1D
+*   SECTION       : TTh 3:30 PM
+*   ASSIGNMENT #8 : Double Hashing
+******************************************************
+
+This program serves to test the implementation of a map. A series of key/value 
+pairs are being added to it, and the final result will be output. Then all keys 
+will be deleted and the map will be output one last time.
+
+This is the map after all additions and erasures: 
+Orange, Tustin, Brea, EMPTY, Laguna Beach, Los Angeles, Oceanside, Mission 
+Viejo, San Clemente, Palms Springs, Irvine, La Jolla, Santa Ana, Aliso Viejo, 
+Riverside, San Diego, Del Mar
+
+This is the map after all remaining entries were manually removed: 
+EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, 
+EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+
+Program has finished and will now exit.
