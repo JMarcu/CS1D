@@ -21,17 +21,15 @@ int main ()
 	test.InsertBack("asdf3");
 	testIt = test.Begin();
 	test.Insert("asdf1", testIt);
+	test.InsertBack("asdf4");
 
 
 	testIt = test.Begin();
-	cin.ignore(1000, '\n');
 	while(testIt != test.End())
 	{
-		cin.ignore(1000, '\n');
 		cout << *testIt << endl;
 		++testIt;
 	}
-
 
 	return 0;
 }

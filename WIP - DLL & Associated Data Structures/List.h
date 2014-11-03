@@ -42,16 +42,15 @@ class List<ElemType>::Iterator
 		Iterator()
 			{currentNode = NULL; endNode = new node;}
 		~Iterator()
-			{currentNode = NULL; delete endNode; endNode = NULL;}
+			{currentNode = NULL;
+			endNode = NULL;}
 
 		bool operator==(const Iterator& compareTo) const
-			{return currentNode != endNode ?
-					currentNode == compareTo.currentNode :
-			        compareTo.currentNode == compareTo.endNode;}
+			{return currentNode == compareTo.currentNode &&
+			        endNode     == compareTo.IsEnd();}
 		bool operator!=(const Iterator& compareTo) const
-			{return currentNode != endNode ?
-					currentNode != compareTo.currentNode :
-					compareTo.currentNode != compareTo.endNode;}
+			{return currentNode != compareTo.currentNode ||
+					endNode     != compareTo.IsEnd();}
 		const ElemType& operator*() const
 			{return currentNode->GetElem();}
 		node* operator->() const
@@ -59,56 +58,62 @@ class List<ElemType>::Iterator
 
 		Iterator& operator++()
 		{
-			if(currentNode->GetNext() != NULL)
+			if(currentNode->GetNext()->GetNext() != NULL)
 				currentNode = currentNode->GetNext();
-			else if(currentNode != endNode)
-				currentNode = endNode;
+			else
+				endNode = true;
 			return *this;
 		}
 		Iterator& operator++(int)
 		{
 			Iterator saveState = *this;
-			if(currentNode->GetNext() != NULL)
+			if(currentNode->GetNext()->GetNext() != NULL)
 				currentNode = currentNode->GetNext();
-			else if(currentNode != endNode)
-				currentNode = endNode;
+			else
+				endNode = true;
 			return saveState;
 		}
 		Iterator& operator--()
 		{
-			if(currentNode->GetPrev() != NULL)
+			if(endNode)
+				endNode = false;
+			else if(currentNode->GetPrev() != NULL)
 				currentNode = currentNode->GetPrev();
 			return *this;
 		}
 		Iterator& operator--(int)
 		{
 			Iterator saveState = *this;
-			if(currentNode->GetPrev() != NULL)
+			if(endNode)
+				endNode = false;
+			else if(currentNode->GetPrev() != NULL)
 				currentNode = currentNode->GetPrev();
 			return saveState;
 		}
 
 	private:
 		friend class List<ElemType>;
-		Iterator(node* pointHere)
-			{currentNode = pointHere; endNode = new node;}
+		Iterator(node* pointHere, bool endFlag)
+			{currentNode = pointHere;  endNode = endFlag;}
 		node* GetCurrentNode() const
 			{return currentNode;}
+		bool IsEnd() const
+			{return endNode;}
 
 		node* currentNode;
-		node* endNode;
+		bool  endNode;
 };
 
 template <typename ElemType>
 typename List<ElemType>::Iterator List<ElemType>::Begin() const
 {
-	return Iterator(D.GetHead());
+	return Iterator(D.GetHead(), false);
 }
 
 template <typename ElemType>
 typename List<ElemType>::Iterator List<ElemType>::End() const
 {
-	return Iterator(D.GetTail());
+	return Iterator(D.GetTail(), true);
 }
 
 template <typename ElemType>
@@ -130,7 +135,7 @@ typename List<ElemType>::Iterator List<ElemType>::Search(const ElemType& key) co
 
 	searchIt = Begin();
 
-	while(searchIt != End() && searchIt->GetElem != key)
+	while(searchIt != End() && searchIt->GetElem() != key)
 	{
 		++searchIt;
 	}

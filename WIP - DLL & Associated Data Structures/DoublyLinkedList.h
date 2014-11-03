@@ -127,7 +127,15 @@ DoublyLinkedList<ElemType>::~DoublyLinkedList()
 template <class ElemType>
 DLLNode<ElemType>* DoublyLinkedList<ElemType>::GetHead() const
 {
-	return head->GetNext();
+	if (!IsEmpty())
+	{
+		return head->GetNext();
+	}
+	else
+	{
+		return NULL;
+	}
+
 }
 
 /*************************************************************************
@@ -146,7 +154,14 @@ DLLNode<ElemType>* DoublyLinkedList<ElemType>::GetHead() const
 template <class ElemType>
 DLLNode<ElemType>* DoublyLinkedList<ElemType>::GetTail() const
 {
-	return tail->GetPrev();
+	if (!IsEmpty())
+	{
+		return tail->GetPrev();
+	}
+	else
+	{
+		return NULL;
+	}
 }
 
 /*************************************************************************
@@ -248,8 +263,8 @@ void DoublyLinkedList<ElemType>::Add(const ElemType& newElem,//IN - The new node
 	newNode->SetElem(newElem);
 
 	//Have the nodes on either side point to beforeHere.
-	beforeHere->SetPrev(beforeHere);
-	newNode   ->SetNext(beforeHere);
+	beforeHere->GetPrev()->SetNext(newNode);
+	beforeHere->SetPrev(newNode);
 
 	//Increment size.
 	size++;
