@@ -1,14 +1,27 @@
 /*************************************************************************
  * AUTHOR      : James Marcu
  * STUDENT ID  : 374443
- * ASS #      : 
+ * ASS #10B    : Radix Sorting
  * CLASS       : CS1D
  * SECTION     : TTh 3:30 AM
- * DUE DATE    : 
+ * DUE DATE    : 11/4/2014
  *************************************************************************/
 
 #include "header.h"
 
+/*************************************************************************
+ * FUNCTION LetterToInt
+ * -----------------------------------------------------------------------
+ * Converts a character to an int representing its position in the
+ * alphabet.
+ * -----------------------------------------------------------------------
+ * PRECONDITIONS -
+ * 	letter : The letter to convert.
+ *
+ * POSTCONDITIONS -
+ * 	Will return that letters position in the alphabet as an integer. If
+ * 	the character passed in wasn't a letter it returns -1.
+ *************************************************************************/
 int LetterToInt(char letter)
 {
 	switch(letter)
