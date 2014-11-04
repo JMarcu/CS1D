@@ -49,10 +49,10 @@ int Partition(int low, int high, int *arr, long long& swaps, PivotIndex pivotTyp
     return hIndex;
 }
 
-void QuickSortIterative (int low, int high, int *arr, long long& swapCount, PivotIndex pivotType)
+void QuickSort (int low, int high, int *arr, long long& swapCount, PivotIndex pivotType)
 {
 	stack<int> sortStack;
-	int        pivot;
+	int        pivotIndex;
 
     // push initial values of l and h to stack
     sortStack.push(low);
@@ -69,63 +69,22 @@ void QuickSortIterative (int low, int high, int *arr, long long& swapCount, Pivo
         sortStack.pop();
 
         // Set pivot element at its correct position in sorted array
-        pivot = Partition(low, high, arr, swapCount, pivotType);
+        pivotIndex = Partition(low, high, arr, swapCount, pivotType);
 
         // If there are elements on left side of pivot, then push left
         // side to stack
-        if (pivot - 1 > low)
+        if (pivotIndex - 1 > low)
         {
             sortStack.push(low);
-            sortStack.push(pivot - 1);
+            sortStack.push(pivotIndex - 1);
         }
 
         // If there are elements on right side of pivot, then push right
         // side to stack
-        if (pivot + 1 < high)
+        if (pivotIndex + 1 < high)
         {
-            sortStack.push(pivot + 1);
+            sortStack.push(pivotIndex + 1);
             sortStack.push(high);
         }
     }
-}
-
-void QuickSort(int low, int high, int *arr, long long& swapCount, PivotIndex pivotType)
-{
-  int index;
-
-  if(low < high)
-  {
-	  cout << "for real?";
-	  cin.ignore(1000, '\n');
-
-	  index = Partition(low, high, arr, swapCount, pivotType);
-	  cout << index;
-	  cin.ignore(1000, '\n');
-
-	  if (index - low > high - index)
-	  {
-		  cout << low << '-' << high << "***";
-		  cin.ignore(1000, '\n');
-
-		  QuickSortIterative(low, index - 1, arr, swapCount, pivotType);
-
-		  cout << low << '-' << high << "**";
-		  cin.ignore(1000, '\n');
-
-		  QuickSort(index+1, high, arr, swapCount, pivotType);
-	  }
-	  else
-	  {
-		  cout << low << '-' << high << "*" << index;
-		  cin.ignore(1000, '\n');
-
-		  QuickSortIterative(index+1, high, arr, swapCount, pivotType);
-
-		  cout << low << '-' << high;
-		  cin.ignore(1000, '\n');
-
-		  QuickSort(low, index-1, arr, swapCount, pivotType);
-	  }
-  }
-
 }
