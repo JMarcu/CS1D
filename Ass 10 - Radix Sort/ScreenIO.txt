@@ -1,0 +1,17 @@
+UNSORTED - 
+abcd, lsds, ksjt, ktrp, absw, azba, rkds, dddd, kdfa, zedz
+
+RADIX SORTED OVER LETTER 4 - 
+azba, kdfa, abcd, dddd, ktrp, lsds, rkds, ksjt, absw, zedz
+
+RADIX SORTED OVER LETTER 3 - 
+azba, abcd, dddd, lsds, rkds, zedz, kdfa, ksjt, ktrp, absw
+
+RADIX SORTED OVER LETTER 2 - 
+abcd, absw, dddd, kdfa, zedz, rkds, lsds, ksjt, ktrp, azba
+
+RADIX SORTED OVER LETTER 1 - 
+abcd, absw, azba, dddd, kdfa, ksjt, ktrp, lsds, rkds, zedz
+
+SORTED - 
+abcd, absw, azba, dddd, kdfa, ksjt, ktrp, lsds, rkds, zedz
