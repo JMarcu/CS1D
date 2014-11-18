@@ -1,0 +1,31 @@
+******************************************************
+*   PROGRAMMED BY : James Marcu
+*   STUDENT ID    : 374443
+*   CLASS         : CS1D
+*   SECTION       : TTh 3:30 PM
+*   ASSIGNMENT #13: Directed Graphs
+******************************************************
+
+The graph is strongly connected.
+
+Level 0 -
+Boston
+
+Level 1 -
+New York
+
+Level 2 -
+Chicago, Atlanta
+
+Level 3 -
+Seattle, Miami
+
+Level 4 -
+San Francisco, Denver, Houston
+
+Level 5 -
+Los Angeles, Dallas
+
+Level 6 -
+Kansas City
+
