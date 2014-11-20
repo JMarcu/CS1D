@@ -20,6 +20,8 @@
 		//#include <cstddef>
 	//using namespace std;
 
+const int COL_WIDTH = 15;
+
 void InstantiateGraph(DirectedGraph<string>& graph);
 
 /*************************************************************************

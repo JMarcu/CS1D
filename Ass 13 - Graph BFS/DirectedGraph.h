@@ -66,7 +66,12 @@ class DirectedGraph
 		DirectedGraph();
 
 		const Vertex<ElemType>* GetVertex(const ElemType& key);
-		bool DFS(const Vertex<ElemType>* start) const;
+		void DFS(const Vertex<ElemType>* start,
+                 List<DirectedEdge<ElemType>* >& discoveryEdges,
+                 List<DirectedEdge<ElemType>* >& backEdges,
+                 List<DirectedEdge<ElemType>* >& crossEdges,
+                 List<DirectedEdge<ElemType>* >& forwardEdges,
+                 bool& isStronglyConnected = false) const;
 		bool IsStronglyConnected(const Vertex<ElemType>* start) const;
 		void BFS(const Vertex<ElemType>* start) const;
 		void PrintBFS(const List<List<const Vertex<ElemType>* > >& toPrint) const;
@@ -137,8 +142,155 @@ const Vertex<ElemType>* DirectedGraph<ElemType>::GetVertex(const ElemType& key)
 };
 
 template <typename ElemType>
-bool DirectedGraph<ElemType>::DFS(const Vertex<ElemType>* start) const
+void DirectedGraph<ElemType>::DFS(const Vertex<ElemType>* start,
+        						  List<DirectedEdge<ElemType>* >& discoveryEdges,
+        						  List<DirectedEdge<ElemType>* >& backEdges,
+        						  List<DirectedEdge<ElemType>* >& crossEdges,
+        						  List<DirectedEdge<ElemType>* >& forwardEdges,
+        						  bool& isStronglyConnected) const
 {
+	List<const Vertex<ElemType>* >  unvisited;
+	List<const Vertex<ElemType>* >  active;
+	List<DirectedEdge<ElemType>* >  visitedEdges;
+	typename List<DirectedEdge<ElemType>* >::Iterator edgeIt;
+	Stack<const Vertex<ElemType>* > history;
+	const Vertex<ElemType>*   currentVertex;
+	const Vertex<ElemType>*   nextVertex;
+	DirectedEdge<ElemType>*   edgePtr;
+	bool                      searchForVertex;
+	bool                      deadEnd;
+	int                       index;
+	int                       edgeTimeCount;
+	int                       edgeTimeOne;
+	int                       edgeTimeTwo;
+
+	typename List<Vertex<ElemType> >::Iterator vertexIt;
+	vertexIt = vertexList.Begin();
+	const Vertex<ElemType>** vertexAuxPtr;
+	while(vertexIt != vertexList.End())
+	{
+		vertexAuxPtr = new const Vertex<ElemType>*(&(*vertexIt));
+		unvisited.InsertBack(*vertexAuxPtr);
+		++vertexIt;
+	}
+
+	currentVertex = start;
+	active.InsertBack(start);
+
+	history.Push(start);
+	unvisited.Erase(start);
+
+	while (!history.Empty())
+	{
+		searchForVertex = true;
+		deadEnd         = false;
+		index           = 0;
+
+		while (searchForVertex)
+		{
+			if (index >= size)
+			{
+				searchForVertex = false;
+				deadEnd         = true;
+			}
+			else if(adjacencyMatrix[currentVertex->GetPosition()][index] != NULL)
+			{
+				edgePtr = adjacencyMatrix[currentVertex->GetPosition()][index];
+				nextVertex = edgePtr->GetDestination();
+
+				if (unvisited.Search(nextVertex) != unvisited.End())
+				{
+					discoveryEdges.InsertBack(edgePtr);
+					visitedEdges.InsertBack(edgePtr);
+
+					history.Push(nextVertex);
+					unvisited.Erase(nextVertex);
+					active.InsertBack(nextVertex);
+
+					currentVertex = nextVertex;
+
+					searchForVertex = false;
+				}
+				else if (visitedEdges.Search(edgePtr) == visitedEdges.End())
+				{
+					if(active.Search(edgePtr->GetDestination()) == active.End())
+					{
+						edgeTimeCount = 0;
+						edgeTimeOne   = visitedEdges.Size() + 1;
+						edgeTimeTwo   = -1;
+						edgeIt = visitedEdges.Begin();
+
+						while(edgeTimeTwo < 0)
+						{
+							if((*edgeIt)->GetDestination() == edgePtr->GetDestination())
+							{
+								edgeTimeTwo = edgeTimeCount;
+							}
+							else
+							{
+								++edgeTimeCount;
+								++edgeIt;
+							}
+						}
+
+						if (edgeTimeOne < edgeTimeTwo)
+						{
+							crossEdges.InsertBack(edgePtr);
+							visitedEdges.InsertBack(edgePtr);
+						}
+						else
+						{
+							forwardEdges.InsertBack(edgePtr);
+							visitedEdges.InsertBack(edgePtr);
+						}
+					}
+					else
+					{
+						backEdges.InsertBack(edgePtr);
+						visitedEdges.InsertBack(edgePtr);
+					}
+
+				}
+			}
+
+			++index;
+		}
+
+		if(deadEnd)
+		{
+			active.Erase(history.Peek());
+
+			history.Pop();
+
+			if(!history.Empty())
+			{
+				currentVertex = history.Peek();
+			}
+			else
+			{
+				currentVertex = NULL;
+			}
+		}
+	}
+
+	if (isStronglyConnected)
+	{
+		if(unvisited.Empty())
+		{
+			isStronglyConnected = IsStronglyConnected(start);
+		}
+		else
+		{
+			isStronglyConnected = false;
+		}
+	}
+}
+
+template <typename ElemType>
+bool DirectedGraph<ElemType>::IsStronglyConnected(const Vertex<ElemType>* start) const
+{
+	bool stronglyConnected;
+
 	List<const Vertex<ElemType>* >  unvisited;
 	Stack<const Vertex<ElemType>* > history;
 	const Vertex<ElemType>*   currentVertex;
@@ -146,7 +298,17 @@ bool DirectedGraph<ElemType>::DFS(const Vertex<ElemType>* start) const
 	bool                      searchForVertex;
 	bool                      deadEnd;
 	int                       index;
-	bool                      connected;
+	DirectedEdge<ElemType>*** revMatrix;
+
+	revMatrix = new DirectedEdge<ElemType>**[size];
+	for (int i = 0; i < size; ++i)
+	{
+		revMatrix[i] = new DirectedEdge<ElemType>*[size];
+		for (int j = 0; j < size; j++)
+		{
+			revMatrix[i][j] = adjacencyMatrix[j][i];
+		}
+	}
 
 	typename List<Vertex<ElemType> >::Iterator it;
 	it = vertexList.Begin();
@@ -176,9 +338,9 @@ bool DirectedGraph<ElemType>::DFS(const Vertex<ElemType>* start) const
 				searchForVertex = false;
 				deadEnd         = true;
 			}
-			else if(adjacencyMatrix[currentVertex->GetPosition()][index] != NULL)
+			else if(revMatrix[currentVertex->GetPosition()][index] != NULL)
 			{
-				nextVertex = adjacencyMatrix[currentVertex->GetPosition()][index]->GetDestination();
+				nextVertex = revMatrix[currentVertex->GetPosition()][index]->GetOrigin();
 
 				if (unvisited.Search(nextVertex) != unvisited.End())
 				{
@@ -209,110 +371,13 @@ bool DirectedGraph<ElemType>::DFS(const Vertex<ElemType>* start) const
 		}
 	}
 
-	connected = unvisited.Empty();
+	stronglyConnected = unvisited.Empty();
 
-	return connected;
-}
-
-template <typename ElemType>
-bool DirectedGraph<ElemType>::IsStronglyConnected(const Vertex<ElemType>* start) const
-{
-	bool stronglyConnected;
-
-	if (DFS(start))
+	for (int i = 0; i < size-1; ++i)
 	{
-		List<const Vertex<ElemType>* >  unvisited;
-		Stack<const Vertex<ElemType>* > history;
-		const Vertex<ElemType>*   currentVertex;
-		const Vertex<ElemType>*   nextVertex;
-		bool                      searchForVertex;
-		bool                      deadEnd;
-		int                       index;
-		DirectedEdge<ElemType>*** revMatrix;
-
-		revMatrix = new DirectedEdge<ElemType>**[size];
-		for (int i = 0; i < size; ++i)
-		{
-			revMatrix[i] = new DirectedEdge<ElemType>*[size];
-			for (int j = 0; j < size; j++)
-			{
-				revMatrix[i][j] = adjacencyMatrix[j][i];
-			}
-		}
-
-		typename List<Vertex<ElemType> >::Iterator it;
-		it = vertexList.Begin();
-		const Vertex<ElemType>** auxPtr;
-		while(it != vertexList.End())
-		{
-			auxPtr = new const Vertex<ElemType>*(&(*it));
-			unvisited.InsertBack(*auxPtr);
-			++it;
-		}
-
-		currentVertex = start;
-
-		history.Push(start);
-		unvisited.Erase(start);
-
-		while (!history.Empty())
-		{
-			searchForVertex = true;
-			deadEnd         = false;
-			index           = 0;
-
-			while (searchForVertex)
-			{
-				if (index >= size)
-				{
-					searchForVertex = false;
-					deadEnd         = true;
-				}
-				else if(revMatrix[currentVertex->GetPosition()][index] != NULL)
-				{
-					nextVertex = revMatrix[currentVertex->GetPosition()][index]->GetOrigin();
-
-					if (unvisited.Search(nextVertex) != unvisited.End())
-					{
-						history.Push(nextVertex);
-						unvisited.Erase(nextVertex);
-
-						currentVertex = nextVertex;
-
-						searchForVertex = false;
-					}
-				}
-
-				++index;
-			}
-
-			if(deadEnd)
-			{
-				history.Pop();
-
-				if(!history.Empty())
-				{
-					currentVertex = history.Peek();
-				}
-				else
-				{
-					currentVertex = NULL;
-				}
-			}
-		}
-
-		stronglyConnected = unvisited.Empty();
-
-		for (int i = 0; i < size-1; ++i)
-		{
-			delete[] revMatrix[i];
-		}
-		delete[] revMatrix;
+		delete[] revMatrix[i];
 	}
-	else
-	{
-		stronglyConnected = false;
-	}
+	delete[] revMatrix;
 
 	return stronglyConnected;
 }

@@ -6,8 +6,42 @@
 *   ASSIGNMENT #13: Directed Graphs
 ******************************************************
 
+Now conducting a depth first search...
 The graph is strongly connected.
 
+The graphs discovery edges are: 
+Seattle        ---> San Francisco   : 807 miles
+San Francisco  ---> Los Angeles     : 381 miles
+Los Angeles    ---> Denver          : 1015 miles
+Denver         ---> Chicago         : 1003 miles
+Chicago        ---> Boston          : 983 miles
+Boston         ---> New York        : 214 miles
+New York       ---> Atlanta         : 888 miles
+Atlanta        ---> Miami           : 661 miles
+Miami          ---> Houston         : 1187 miles
+Houston        ---> Dallas          : 239 miles
+Dallas         ---> Kansas City     : 496 miles
+
+The graphs back edges are: 
+Chicago        ---> Seattle         : 2097 miles
+New York       ---> Chicago         : 787 miles
+Dallas         ---> Los Angeles     : 1435 miles
+Kansas City    ---> Chicago         : 533 miles
+Kansas City    ---> Los Angeles     : 1663 miles
+Kansas City    ---> Denver          : 599 miles
+Kansas City    ---> New York        : 1260 miles
+Kansas City    ---> Atlanta         : 864 miles
+Dallas         ---> Atlanta         : 781 miles
+Houston        ---> Atlanta         : 810 miles
+Denver         ---> San Francisco   : 1267 miles
+
+The graphs forward edges are: 
+Seattle        ---> Denver          : 1331 miles
+
+The graphs cross edges are: 
+
+
+Now conducting a breadth first search...
 Level 0 -
 Boston
 
@@ -28,4 +62,3 @@ Los Angeles, Dallas
 
 Level 6 -
 Kansas City
-
