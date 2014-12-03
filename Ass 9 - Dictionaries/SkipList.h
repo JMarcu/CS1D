@@ -10,6 +10,8 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <iostream>
+using namespace std;
 
 enum Infinity{
 	NOT_INF, POS_INF, NEG_INF
@@ -48,15 +50,23 @@ class SkipNode
 		bool operator>(node* compareTo) const
 		{return compareTo->GetInf() != POS_INF &&
 				element > compareTo->GetElem();}
+		bool operator>(ElemType compareTo) const
+		{return element > compareTo;}
 		bool operator>=(node* compareTo) const
 		{return compareTo->GetInf() == POS_INF ? isInf == POS_INF : true &&
 				element >= compareTo->GetElem();}
+		bool operator>=(ElemType compareTo) const
+		{return element >= compareTo;}
 		bool operator<(node* compareTo) const
 		{return compareTo->GetInf() != NEG_INF &&
 				element > compareTo->GetElem();}
+		bool operator<(ElemType compareTo) const
+		{return element > compareTo;}
 		bool operator<=(node* compareTo) const
 		{return compareTo->GetInf() == NEG_INF ? isInf == NEG_INF : true &&
 				element >= compareTo->GetElem();}
+		bool operator<=(ElemType compareTo) const
+		{return element >= compareTo;}
 
 		void SetUp(node* newUp)
 		{up = newUp;}
@@ -92,10 +102,10 @@ class SkipList
 		int      Size() const;
 		bool     Empty() const;
 		Iterator Search(const ElemType& searchKey) const;
-		Iterator Begin() const;
-		Iterator End() const;
+		node* Begin() const;
+		node* End() const;
 
-		Iterator Insert(const ElemType& newElem);
+		node* Insert(const ElemType& newElem);
 		bool     Delete(const ElemType& toDelete);
 		void     Delete(Iterator toDelete);
 
@@ -130,11 +140,11 @@ class SkipList<ElemType>::Iterator
 		{	if (currentNode->GetRight() != NULL)
 				currentNode = currentNode->GetRight();
 			else{
-				ClimbUp();
+				DropDown();
 				while (currentNode->GetLeft() != NULL)
 					currentNode = currentNode->GetLeft();
 			}
-			return *this;
+			return Iterator(currentNode);
 		}
 		Iterator operator++(int)
 		{	Iterator copy(currentNode);
@@ -155,7 +165,7 @@ class SkipList<ElemType>::Iterator
 				while (currentNode->GetRight() != NULL)
 					currentNode = currentNode->GetRight();
 			}
-			return *this;
+			return Iterator(currentNode);
 		}
 		Iterator operator--(int)
 		{	Iterator copy(currentNode);
@@ -168,11 +178,11 @@ class SkipList<ElemType>::Iterator
 			}
 			return copy;
 		}
-		void     DropDown()
+		void DropDown()
 		{	if (currentNode->GetDown() != NULL)
 		    {currentNode = currentNode->GetDown();}
 		}
-		void     ClimbUp()
+		void ClimbUp()
 		{	if (currentNode->GetUp() != NULL)
 			{currentNode = currentNode->GetUp();}
 		}
@@ -240,14 +250,26 @@ typename SkipList<ElemType>::Iterator SkipList<ElemType>::Search(const ElemType&
 }
 
 template <typename ElemType>
-typename SkipList<ElemType>::Iterator SkipList<ElemType>::Insert(const ElemType& newElem)
+SkipNode<ElemType>* SkipList<ElemType>::Begin() const
 {
-	Iterator insertIt;
-	int      insertLevel;
-	node*    newNode;
-	node*    lastInsert;
+	return begin;
+}
 
-	insertLevel = 0;
+template <typename ElemType>
+SkipNode<ElemType>* SkipList<ElemType>::End() const
+{
+	return end;
+}
+
+template <typename ElemType>
+SkipNode<ElemType>* SkipList<ElemType>::Insert(const ElemType& newElem)
+{
+	node* insertPtr;
+	int   insertLevel;
+	node* newNode;
+	node* lastInsert;
+
+	insertLevel = 1;
 	lastInsert  = NULL;
 
 	while (rand() % 2 == 1)
@@ -260,36 +282,45 @@ typename SkipList<ElemType>::Iterator SkipList<ElemType>::Insert(const ElemType&
 		AddLevel();
 	}
 
-	insertIt = Begin();
-	for(int currentLevel = numberOfLevels; currentLevel >= 0; --currentLevel)
+	insertPtr = Begin();
+	for(int currentLevel = numberOfLevels; currentLevel > 0; --currentLevel)
 	{
-		while(insertIt->GetRight() < newElem)
+		cout << "asdf1";
+		cin.ignore(1000, '\n');
+		while(*(insertPtr->GetRight()) < newElem)
 		{
-			++insertIt;
+			cout << "asdf2";
+			cin.ignore(1000, '\n');
+			insertPtr = insertPtr->GetRight();
 		}
-
-		if(insertIt->GetLevel() <= insertLevel)
+		cout << "asdf3";
+		cin.ignore(1000, '\n');
+		if(insertPtr->GetLevel() <= insertLevel)
 		{
-			newNode = new node(insertIt->GetLevel(), newElem);
-			newNode->SetRight(insertIt->GetRight());
-			newNode->SetLeft(*insertIt);
+			cout << "asdf4";
+			cin.ignore(1000, '\n');
+			newNode = new node(newElem, insertPtr->GetLevel());
+			newNode->SetRight(insertPtr->GetRight());
+			newNode->SetLeft(insertPtr);
 			newNode->SetUp(lastInsert);
-			if (insertIt->GetLevel() != insertLevel)
+			if (insertPtr->GetLevel() != insertLevel)
 			{
 				lastInsert->SetDown(newNode);
 			}
 
-			insertIt->GetRight()->SetLeft(newNode);
-			insertIt->SetRight(newNode);
+			insertPtr->GetRight()->SetLeft(newNode);
+			insertPtr->SetRight(newNode);
 		}
 
-		insertIt.DropDown();
+		insertPtr = insertPtr->GetDown();
 		lastInsert = newNode;
 	}
 
 	newNode->SetDown(NULL);
 
 	++size;
+
+	return newNode;
 }
 
 template <typename ElemType>
@@ -338,20 +369,30 @@ void SkipList<ElemType>::Delete(Iterator toDelete)
 template <typename ElemType>
 void SkipList<ElemType>::AddLevel()
 {
-	Iterator addIt;
+	node* addIt;
+	node* posInfPtr;
 
 	addIt = Begin();
 
 	++numberOfLevels;
 
 	addIt->SetUp(new node(numberOfLevels, NEG_INF));
-	addIt->GetUp()->SetDown(*addIt);
-	addIt.ClimbUp();
+	addIt->GetUp()->SetDown(addIt);
+	addIt = addIt->GetUp();
 
 	addIt->SetRight(new node(numberOfLevels, POS_INF));
-	addIt->GetRight()->SetLeft(*addIt);
+	addIt->GetRight()->SetLeft(addIt);
 
-	begin = *addIt;
+	posInfPtr = addIt->GetDown();
+	while (posInfPtr->GetInf() != POS_INF)
+	{
+		posInfPtr = posInfPtr->GetRight();
+	}
+
+	addIt->GetRight()->SetDown(posInfPtr);
+	posInfPtr->SetUp(addIt->GetRight());
+
+	begin = addIt;
 }
 
 #endif /* SKIPLIST_H_ */
