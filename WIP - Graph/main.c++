@@ -8,6 +8,7 @@ int main()
 	List<const Vertex<string>* > vL;
 	Stack<const Vertex<string>* > vS;
 	Stack<const Edge<string>* > eS;
+	Tree<const Vertex<string>* > tree;
 
 	InstantiateGraph(graph);
 

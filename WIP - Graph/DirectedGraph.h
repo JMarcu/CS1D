@@ -832,6 +832,7 @@ void Graph<ElemType>::ShortestPath(const Vertex<ElemType>* start, List<const Ver
 	}
 
 	vertexStack.Push(start);
+
 }
 
 template <typename ElemType>
@@ -865,7 +866,7 @@ void Graph<ElemType>::IncrementMatrix()
 		}
 		delete[] adjacencyMatrix[i];
 	}
-	delete[] adjacencyMatrix;
+//	delete[] adjacencyMatrix;
 
 	adjacencyMatrix = matrix;
 }
