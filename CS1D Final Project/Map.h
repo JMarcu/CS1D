@@ -1,10 +1,11 @@
 /*************************************************************************
- * AUTHOR      : James Marcu
- * STUDENT ID  : 374443
- * ASS #      : 
+ * CS1D Final Project
+ * -----------------------------------------------------------------------
+ * AUTHORS     : James Marcu & Phillip Doyle
+ * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
  * SECTION     : TTh 3:30 AM
- * DUE DATE    : 
+ * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef MAP_H_
 #define MAP_H_
@@ -45,7 +46,7 @@ class Map
 				*******************************************/
 				int   GetPosition() const;                //Returns the index
 				node* operator*() const;                  //Returns the node
-				typename HashTable<KeyType, ElemType>::Iterator operator->() const;                 //Accesses the node
+				typename HashTable<KeyType, ElemType>::Iterator operator->() const;//Accesses the node
 				bool  operator==(Iterator& compare) const;//Compare iterators
 				bool  operator!=(Iterator& compare) const;//Compare iterators
 
@@ -83,25 +84,25 @@ class Map
 		/*******************************************
 		 * * * *          ACCESSORS          * * * *
 		 *******************************************/
-		int      Size() const;                  //Returns the number of
-		                                        //elements.
-		bool     Empty() const;                 //Returns if the map is empty.
+		int      Size() const; //Returns the number of
+		                       //elements.
+		bool     Empty() const;//Returns if the map is empty.
+		Iterator Begin() const;//Returns an iterator for the
+		                       //first entry.
+		Iterator End() const;  //Returns an iterator for the
+		                       //entry-after-the-last-entry.
+		string   Print() const;//Returns a string of all values.
 		HashNode<KeyType, ElemType>* Find(const KeyType& key) const;//Returns an iterator for
-		                                        //the given key.
-		Iterator Begin() const;                 //Returns an iterator for the
-		                                        //first entry.
-		Iterator End() const;                   //Returns an iterator for the
-		                                        //entry-after-the-last-entry.
-		string   Print() const;                 //Returns a string of all values.
+		                                                            //the given key.
 
 	   /*******************************************
 		* * * *          MUTATORS           * * * *
 		*******************************************/
 		void Put(const KeyType&  key,   //Adds a new key/value pair.
 				 const ElemType& value);
-		bool     Erase(const KeyType& key); //Erases the given key/value pair.
-		bool     Erase(Iterator& position); //Erases the pair at the given
-		                                    //position.
+		bool Erase(const KeyType& key); //Erases the given key/value pair.
+		bool Erase(Iterator& position); //Erases the pair at the given
+		                                //position.
 
 	private:
 	   /*******************************************

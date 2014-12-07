@@ -1,10 +1,11 @@
 /*************************************************************************
- * AUTHOR      : James Marcu
- * STUDENT ID  : 374443
- * ASS #      :
+ * CS1D Final Project
+ * -----------------------------------------------------------------------
+ * AUTHORS     : James Marcu & Phillip Doyle
+ * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
  * SECTION     : TTh 3:30 AM
- * DUE DATE    :
+ * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef HASHTABLE_H_
 #define HASHTABLE_H_
@@ -51,6 +52,12 @@ class HashNode
 	   /*******************************************
 		* * * *          MUTATORS           * * * *
 		*******************************************/
+		ElemType& ModValue()
+		{if (!deleted && !end)
+			return value;
+		 else
+			 throw EmptyNode();
+		}
 		void SetKey(const KeyType& newKey)     //Sets the key in the node.
 			{if (!deleted && !end)
 				key = newKey;
@@ -96,6 +103,39 @@ class HashTable
 	typedef HashNode<KeyType, ElemType> node;//Shorthand for a node in the table.
 
 	public:
+		//An iterator for the hash table.
+		class Iterator
+		{
+			public:
+			   /*******************************************
+			    * * * * CONSTRUCTORS AND DESTRUCTOR * * * *
+			    *******************************************/
+				Iterator();          //Defaults position to the first index.
+				Iterator(int posInit,//Sets the index to start at.
+						 node* buck);
+
+			   /*******************************************
+				* * * *          ACCESSORS          * * * *
+				*******************************************/
+				int   GetPosition() const;                //Returns the index
+				node* operator*() const;                  //Returns the node
+				node* operator->() const;                 //Accesses the node
+				bool  operator==(Iterator& compare) const;//Compare iterators
+				bool  operator!=(Iterator& compare) const;//Compare iterators
+
+			   /*******************************************
+				* * * *          MUTATORS           * * * *
+				*******************************************/
+				Iterator operator++();   //Increments to the next index.
+				Iterator operator++(int);//Increments to the next index.
+				Iterator operator--();   //Decrements to the previous index.
+				Iterator operator--(int);//Decrements to the previous index.
+
+			private:
+				int   position;//Stores the index the iterator is pointing to.
+				node* bucket;
+		};
+
 	   /*******************************************
 		* * * * CONSTRUCTORS AND DESTRUCTOR * * * *
 		*******************************************/
@@ -116,13 +156,18 @@ class HashTable
 		                                        //'end' if not found.
 		string Print() const;                   //Prints a list of stored
 		                                        //values to the console.
+		Iterator Begin() const;                 //Returns an iterator to the
+		                                        //first node.
+		Iterator End() const;                   //Returns an iterator to the
+		                                        //'end' node.
 
 	   /*******************************************
 		* * * *          MUTATORS           * * * *
 		*******************************************/
 		void Put(const KeyType& key,      //Stores a new key/value pair.
-				 const ElemType& newElem);
-		bool Erase(const KeyType& key);   //Erases the node with the key.
+				     const ElemType& newElem);
+		bool Erase(const KeyType& key);       //Erases the node with the key.
+		bool Erase(Iterator& position);       //Erases the node at the position.
 
 	private:
 	   /*******************************************
@@ -316,7 +361,7 @@ string HashTable<KeyType, ElemType>::Print() const
 	}
 	else
 	{
-		ss << bucket[index]->GetValue();
+		ss << bucket[index]->GetValue().get_stadium_name();
 	}
 
 	//The same as above, but it also adds commas and spaces between entries
@@ -329,12 +374,48 @@ string HashTable<KeyType, ElemType>::Print() const
 		}
 		else
 		{
-			ss << ", " << bucket[index]->GetValue();
+			ss << ", " << bucket[index]->GetValue().get_stadium_name();
 		}
 	}
 
 	//Convert the stream to a string and return it.
 	return ss.str();
+}
+
+/*************************************************************************
+ * METHOD Begin
+ * ______________________________________________________________________
+ * Returns an iterator pointing to the first index in the table.
+ * ______________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	Returns an iterator pointing to the first index in the table.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+typename HashTable<KeyType, ElemType>::Iterator HashTable<KeyType, ElemType>::Begin() const
+{
+	return Iterator(0);
+}
+
+/*************************************************************************
+ * METHOD Begin
+ * ______________________________________________________________________
+ * Returns an iterator pointing to the node-beyond-the-last node of the
+ * table.
+ * ______________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	Returns an iterator pointing to the node-beyond-the-last node of the
+ * 	table.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+typename HashTable<KeyType, ElemType>::Iterator HashTable<KeyType, ElemType>::End() const
+{
+	return Iterator(18);
 }
 
 /*************************************************************************
@@ -408,15 +489,51 @@ bool HashTable<KeyType, ElemType>::Erase(const KeyType& key)
 	success = false;
 
 	//Hash the key and get the index
-	index = Find(key).GetPosition();
+//	index = Find(key)->GetPosition();
 
 	//If the key points to a non-null, non-deleted node with a matching key
 	//then delete it and decrement the size counter.
-	if ( bucket[index] != NULL    &&
-		!bucket[index]->Deleted() &&
-		 bucket[index]->GetKey() == key)
+//	if ( bucket[index] != NULL    &&
+//		!bucket[index]->Deleted() &&
+//		 bucket[index]->GetKey() == key)
+//	{
+//		bucket[index]->Delete();
+//		--size;
+//		success = true;
+//	}
+	Find(key)->Delete();
+	--size;
+	success = true;
+
+	return success;
+}
+
+/*************************************************************************
+ * METHOD Erase
+ * ______________________________________________________________________
+ * Deletes the node in the table at the given position.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  position: The position of the node to delete.
+ *
+ * POST-CONDITIONS -
+ * 	Deletes the node with the given key.
+ * 	success: Returns true if the node was found and deleted.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+bool HashTable<KeyType, ElemType>::Erase(Iterator& position)
+{
+	//VARIABLE DECLERATIONS
+	bool success;
+
+	//VARIABLE INITIALIZATIONS
+	success = false;//OUT - if the node was found and deleted
+
+	//If the iterator points to a non-null node then delete it and decrement
+	//the size counter.
+	if (bucket[position.GetPosition()] != NULL)
 	{
-		bucket[index]->Delete();
+		bucket[position.GetPosition()]->Delete();
 		--size;
 		success = true;
 	}
@@ -492,6 +609,214 @@ int HashTable<KeyType, ElemType>::Hash(const KeyType& key) const
 	}while (keepSearching);
 
 	return index;
+}
+
+
+/*************************************************************************
+ *
+ * -----------------------------------------------------------------------
+ * CLASS HashTable::Iterator
+ * -----------------------------------------------------------------------
+ * All methods below belong to the class HashTable::Iterator.
+ *
+ *************************************************************************/
+
+
+/*************************************************************************
+ * METHOD Iterator
+ * ______________________________________________________________________
+ * Constructs the iterator with a default position of index 0.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	Creates an instance of the object iterator.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+HashTable<KeyType, ElemType>::Iterator::Iterator()
+{
+	position = 0;
+	bucket   = NULL;
+}
+
+/*************************************************************************
+ * METHOD Iterator
+ * ______________________________________________________________________
+ * Constructs the iterator with a provided position.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  posInit: The index that of the node the iterator should point to.
+ *
+ * POST-CONDITIONS -
+ * 	Creates an instance of the object iterator.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+HashTable<KeyType, ElemType>::Iterator::Iterator(int posInit, node* buck)
+{
+	position = posInit;
+	bucket   = buck;
+}
+
+/*************************************************************************
+ * METHOD GetPosition
+ * ______________________________________________________________________
+ * Returns the index number pointed to by the iterator.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	position: The index of the node the iterator points to.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+int HashTable<KeyType, ElemType>::Iterator::GetPosition() const
+{
+	return position;
+}
+
+/*************************************************************************
+ * METHOD operator*
+ * ______________________________________________________________________
+ * Overloaded to return the a pointer to the node pointed at by the
+ * iterator.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	Returns a pointer to the node at the iterator's position.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+HashNode<KeyType, ElemType>* HashTable<KeyType, ElemType>::Iterator::operator*() const
+{
+	return bucket[position];
+}
+
+/*************************************************************************
+ * METHOD operator->
+ * ______________________________________________________________________
+ * Overloaded to run on the node at the iterator's position instead of
+ * the iterator itself.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	Runs the arrow operator on the iterator's node.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+HashNode<KeyType, ElemType>* HashTable<KeyType, ElemType>::Iterator::operator->() const
+{
+	HashNode<KeyType, ElemType>* returnPtr;
+	returnPtr = &bucket[position];
+	return returnPtr;
+}
+
+/*************************************************************************
+ * METHOD operator==
+ * ______________________________________________________________________
+ * Returns true if the two iterators node's are equal.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	Returns true if the two iterators node's are equal.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+bool HashTable<KeyType, ElemType>::Iterator::operator==(Iterator& compare) const
+{
+	return bucket[position] == *compare;
+}
+
+/*************************************************************************
+ * METHOD operator!=
+ * ______________________________________________________________________
+ * Returns true if the two iterators node's are not equal.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	Returns true if the two iterators node's are not equal.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+bool HashTable<KeyType, ElemType>::Iterator::operator!=(Iterator& compare) const
+{
+	return bucket[position] != *compare;
+}
+
+/*************************************************************************
+ * METHOD operator++
+ * ______________________________________________________________________
+ * The pre-increment operator. Moves the iterator to the next index of the
+ * table.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	The iterator will point to the next index in the table.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+typename HashTable<KeyType, ElemType>::Iterator HashTable<KeyType, ElemType>::Iterator::operator++()
+{
+	return Iterator(bucket[++position]);
+}
+
+/*************************************************************************
+ * METHOD operator++
+ * ______________________________________________________________________
+ * The post-increment operator. Moves the iterator to the next index of the
+ * table.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	The iterator will point to the next index in the table.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+typename HashTable<KeyType, ElemType>::Iterator HashTable<KeyType, ElemType>::Iterator::operator++(int)
+{
+	return Iterator(bucket[position++]);
+}
+
+/*************************************************************************
+ * METHOD operator--
+ * ______________________________________________________________________
+ * The pre-decrement operator. Moves the iterator to the previous index of
+ * the table.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	The iterator will point to the previous index in the table.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+typename HashTable<KeyType, ElemType>::Iterator HashTable<KeyType, ElemType>::Iterator::operator--()
+{
+	return Iterator(bucket[--position]);
+}
+
+/*************************************************************************
+ * METHOD operator--
+ * ______________________________________________________________________
+ * The post-decrement operator. Moves the iterator to the previous index of
+ * the table.
+ * _____________________________________________________________________
+ * PRE-CONDITIONS -
+ *  <none>
+ *
+ * POST-CONDITIONS -
+ * 	The iterator will point to the previous index in the table.
+ *************************************************************************/
+template <typename KeyType, typename ElemType>
+typename HashTable<KeyType, ElemType>::Iterator HashTable<KeyType, ElemType>::Iterator::operator--(int)
+{
+	return Iterator(bucket[position--]);
 }
 
 #endif /* HASHTABLE_H_ */
