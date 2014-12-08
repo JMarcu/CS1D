@@ -1,10 +1,11 @@
 /*************************************************************************
- * AUTHOR      : James Marcu
- * STUDENT ID  : 374443
- * ASS #      : 
+ * CS1D Final Project
+ * -----------------------------------------------------------------------
+ * AUTHORS     : James Marcu & Phillip Doyle
+ * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
  * SECTION     : TTh 3:30 AM
- * DUE DATE    : 
+ * DUE DATE    : 12/9/2014
  *************************************************************************/
 
 #include "header.h"

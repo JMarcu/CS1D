@@ -69,7 +69,7 @@ void ListMenu(const List<NFL_Stadium>& stadiumsAlphabetical,
 					 	"6) Retractable Roof Stadiums\n"
 			            "7) Opening Date\n"
 			            "8) Find One Stadium\n"
-			            "0) Go Back\n\n"
+			            "0) Go Back\n"
 			            "Enter Selection: ";
 
 	/*********************************************************************

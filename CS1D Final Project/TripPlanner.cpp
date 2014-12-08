@@ -61,7 +61,7 @@ void TripPlannerMenu(const List<NFL_Stadium>& stadiumsAlphabetical,
 		/*****************************************************************
 		 * INPUT - The user is shown the menu and give their choice.
 		 *****************************************************************/
-		userSelection = Trip_Menu_Options(ErrorCheckNum(8,0, MENU));
+		userSelection = Trip_Menu_Options(ErrorCheckNum(4,0, MENU));
 		cout << endl;
 
 		/*****************************************************************

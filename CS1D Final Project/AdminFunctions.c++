@@ -10,6 +10,31 @@
 
 #include "header.h"
 
+/*************************************************************************
+ * FUNCTION InsertToLists
+ * -----------------------------------------------------------------------
+ * This will insert a new stadium object into the proper location in the
+ * program's stadium lists.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumAlphabetical 	: The list to store all stadiums, sorted by
+ * 	                          stadium name.
+ * 	stadiumsTeamName   		: The list to store all stadiums, sorted by
+ * 							  team name.
+ * 	stadiumsAFC            	: The list to store all stadiums in the AFC.
+ * 	stadiumsNFC        		: The list to store all stadiums in the NFC.
+ * 	stadiumsOpenRoof       	: The list to store all stadiums with open roofs.
+ * 	stadiumsRetractableRoof	: The list to store all stadiums with
+ * 							  retractable roofs.
+ * 	stadiumsDateOpened     	: The list to store all stadiums, sorted by
+ * 							  opening date.
+ * 	stadiumPtr      		: The new stadium object to add to the lists.
+ *
+ * POST-CONDITIONS -
+ * 	stadiumPtr : The stadium object pointed to will be added in the
+ * 	             correct location to the relevant lists.
+ *
+ *************************************************************************/
 void InsertToLists(List<NFL_Stadium>& stadiumsAlphabetical,
    	    		   List<NFL_Stadium>& stadiumsTeamName,
    	    		   List<NFL_Stadium>& stadiumsAFC,
@@ -19,8 +44,12 @@ void InsertToLists(List<NFL_Stadium>& stadiumsAlphabetical,
    	    		   List<NFL_Stadium>& stadiumsDateOpened,
    	    		   NFL_Stadium*       stadiumPtr)
 {
-	bool insertFurther;
-	List<NFL_Stadium>::Iterator stadiumIt;
+	//VARIABLE DECLERATIONS
+	bool insertFurther;                   //PROC - Controls the loop that
+	                                      //       iterates to the insertion
+	                                      //       point in the lists.
+	List<NFL_Stadium>::Iterator stadiumIt;//PROC - Iterates the lists of
+	                                      //       stadiums.
 
 	/*********************************************************************
 	 * PROC - Add the stadium to the list of all stadiums, sorted by
@@ -205,6 +234,30 @@ void InsertToLists(List<NFL_Stadium>& stadiumsAlphabetical,
 	}
 }
 
+/*************************************************************************
+ * FUNCTION RemoveToLists
+ * -----------------------------------------------------------------------
+ * This will remove a stadium object from the program's stadium lists.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumAlphabetical 	: The list to store all stadiums, sorted by
+ * 	                          stadium name.
+ * 	stadiumsTeamName   		: The list to store all stadiums, sorted by
+ * 							  team name.
+ * 	stadiumsAFC            	: The list to store all stadiums in the AFC.
+ * 	stadiumsNFC        		: The list to store all stadiums in the NFC.
+ * 	stadiumsOpenRoof       	: The list to store all stadiums with open roofs.
+ * 	stadiumsRetractableRoof	: The list to store all stadiums with
+ * 							  retractable roofs.
+ * 	stadiumsDateOpened     	: The list to store all stadiums, sorted by
+ * 							  opening date.
+ * 	stadiumPtr      		: The stadium object to remove from the lists.
+ *
+ * POST-CONDITIONS -
+ * 	stadiumPtr : The stadium object pointed to will be removed from the
+ * 	             relevant lists.
+ *
+ *************************************************************************/
 void RemoveFromLists(List<NFL_Stadium>& stadiumsAlphabetical,
    	    			 List<NFL_Stadium>& stadiumsTeamName,
    	    			 List<NFL_Stadium>& stadiumsAFC,
@@ -214,39 +267,61 @@ void RemoveFromLists(List<NFL_Stadium>& stadiumsAlphabetical,
    	    			 List<NFL_Stadium>& stadiumsDateOpened,
    	    			 NFL_Stadium*       stadiumPtr)
 {
-	List<NFL_Stadium>::Iterator stadiumIt;
+	//VARIABLE DECLERATIONS
+	List<NFL_Stadium>::Iterator stadiumIt;//PROC - Used to iterate the
+	                                      //       lists of stadiums.
 
+	/*********************************************************************
+	 * PROC - All stadiums belong to these lists. The stadium object will
+	 *        be removed from them.
+	 *********************************************************************/
 	stadiumIt = stadiumsAlphabetical.Search(*stadiumPtr);
 	stadiumsAlphabetical.Erase(stadiumIt);
 
 	stadiumIt = stadiumsTeamName.Search(*stadiumPtr);
 	stadiumsTeamName.Erase(stadiumIt);
 
+	stadiumsDateOpened.Erase(stadiumsDateOpened.Search(*stadiumPtr));
+
+	/*********************************************************************
+	 * PROC - If the stadium has a team in the AFC it is on this
+	 *        list and will be removed.
+	 *********************************************************************/
 	stadiumIt = stadiumsAFC.Search(*stadiumPtr);
 	if(stadiumIt != stadiumsAFC.End())
 	{
 		stadiumsAFC.Erase(stadiumIt);
 	}
 
+	/*********************************************************************
+	 * PROC - If the stadium has a team in the NFC it is on this
+	 *        list and will be removed.
+	 *********************************************************************/
 	stadiumIt = stadiumsNFC.Search(*stadiumPtr);
 	if(stadiumIt != stadiumsNFC.End())
 	{
 		stadiumsNFC.Erase(stadiumIt);
 	}
 
+	/*********************************************************************
+	 * PROC - If the stadium has an open roof it will be in this list and
+	 *        will be removed.
+	 *********************************************************************/
 	stadiumIt = stadiumsOpenRoof.Search(*stadiumPtr);
 	if(stadiumIt != stadiumsOpenRoof.End())
 	{
 		stadiumsOpenRoof.Erase(stadiumIt);
 	}
 
+	/*********************************************************************
+	 * PROC - If the stadium has a retractable roof it will be in this list
+	 *        and will be removed.
+	 *********************************************************************/
 	stadiumIt = stadiumsRetractableRoof.Search(*stadiumPtr);
 	if(stadiumIt != stadiumsOpenRoof.End())
 	{
 		stadiumsRetractableRoof.Erase(stadiumIt);
 	}
-
-	stadiumsDateOpened.Erase(stadiumsDateOpened.Search(*stadiumPtr));
 }
 
 /*************************************************************************
@@ -346,57 +421,102 @@ void AddStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 	string       teamName;       //IN   - A team's name.
 	conference   teamConference; //IN   - A team's conference.
 	Team*        teamPtr;        //PROC - Used to create new team objects.
-	List<NFL_Stadium>::Iterator stadiumIt;//PROC - Iterates stadium lists.
-	List<Team>::Iterator        teamIt;   //PROC - Iteratres team lists.
 	bool         validDest;      //PROC - Used to find a valid route destination.
 	bool         enterRoutes;    //PROC - Used to continue entering routes.
 	string       destination;    //IN   - Name of the stadium a route goes to.
 	float        weight;         //IN   - Distance(mi) of a route.
+	List<NFL_Stadium>::Iterator stadiumIt;//PROC - Iterates stadium lists.
+	List<Team>::Iterator        teamIt;   //PROC - Iterates team lists.
 
 	//VARIABLE INITIALIZATIONS
 	enterTeams  = true;
 	enterRoutes = true;
 
+	/*********************************************************************
+	 * INPUT - Get the name of the new stadium.
+	 *********************************************************************/
 	cout << NAME_PROMPT;
 	getline(cin, stadiumName);
 
+	/*********************************************************************
+	 * INPUT - Get the roof type of the new stadium.
+	 *********************************************************************/
 	stadiumRoof = roof_type(ErrorCheckNum(3, 1, ROOF_PROMPT) - 1);
 
+	/*********************************************************************
+	 * INPUT - Get the capacity of the new stadium.
+	 *********************************************************************/
 	stadiumCapacity = ErrorCheckNum(500000, 0, CAPACITY_PROMPT);
 
+	/*********************************************************************
+	 * INPUT - Get the opening date of the new stadium.
+	 *********************************************************************/
 	openingYear  = ErrorCheckNum(3000, 1900, YEAR_PROMPT);
 	openingMonth = ErrorCheckNum(12,   1,    MONTH_PROMPT);
 	openingDay   = ErrorCheckNum(31,   1,    DAY_PROMPT);
 	stadiumDate  = new Date(Months(openingMonth), openingDay, openingYear);
 
-	stadiumPtr = new NFL_Stadium(stadiumRoof, stadiumName, stadiumCapacity, *stadiumDate);
+	/*********************************************************************
+	 * PROC - Create the stadium object using this data. We have all the
+	 *        information we need to initialize, so we create it here and
+	 *        modify it from here on out.
+	 *********************************************************************/
+	stadiumPtr = new NFL_Stadium(stadiumRoof,      stadiumName,
+			                     stadiumCapacity, *stadiumDate);
 
+	/*********************************************************************
+	 * INPUT - Get the location of the new stadium.
+	 *********************************************************************/
 	cout << LOCATION_PROMPT;
 	getline(cin, stadiumLocation);
 	stadiumPtr->set_location(stadiumLocation);
 
+	/*********************************************************************
+	 * INPUT - Get the teams that play at the new stadium.
+	 *********************************************************************/
 	cout << FIRST_TEAM_PROMPT;
 	while(enterTeams)
 	{
+		/*****************************************************************
+		 * INPUT - Get the name of the team.
+		 *****************************************************************/
 		cout << TEAM_NAME_PROMPT;
 		getline(cin, teamName);
 
+		/*****************************************************************
+		 * INPUT - Get the conference of the team.
+		 *****************************************************************/
 		teamConference = conference(ErrorCheckNum(2, 1, TEAM_CONF_PROMPT) - 1);
 
+		/*********************************************************************
+		 * PROC - Create the team and add it to the stadium.
+		 *********************************************************************/
 		teamPtr = new Team(teamName, teamConference);
-
 		stadiumPtr->add_team(*teamPtr);
 
+		/*****************************************************************
+		 * INPUT - Find out if there are other teams that play at the
+		 *         stadium to add to the program.
+		 *****************************************************************/
 		if (GetInput(SECOND_TEAM_PROMPT, 'y', 'n', cout, cin) == 'N')
 		{
 			enterTeams = false;
 		}
 	}
 
+	/*********************************************************************
+	 * INPUT - Get the routes that this stadium is on for use in the
+	 *         program's trip planning function. At least one must be
+	 *         provided.
+	 *********************************************************************/
 	cout << GRAPH_PROMPT;
 	stadiumGraph.AddVertex(*stadiumPtr);
 	do
 	{
+		/*****************************************************************
+		 * INPUT - The user enters the name of the stadium that the route
+		 *         connects to. The name is checked for validity.
+		 *****************************************************************/
 		validDest = false;
 		while(!validDest)
 		{
@@ -413,12 +533,21 @@ void AddStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 			}
 		}
 
+		/*****************************************************************
+		 * INPUT - Get the weight of the edge.
+		 *****************************************************************/
 		weight = ErrorCheckNum(30000.0, 0.0, WEIGHT_PROMPT);
 
+		/*****************************************************************
+		 * PROC - Add the route to the graph.
+		 *****************************************************************/
 		stadiumGraph.AddEdge(stadiumGraph.GetVertex(*stadiumPtr),
 				             stadiumGraph.GetVertex(stadiumMap.Find(destination)->GetValue()),
 				             weight);
 
+		/*****************************************************************
+		 * INPUT - Find out if there are more routes to add.
+		 *****************************************************************/
 		if (GetInput(ROUTE_PROMPT, 'y', 'n', cout, cin) == 'N')
 		{
 			enterRoutes = false;
@@ -426,6 +555,9 @@ void AddStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 
 	}while(enterRoutes);
 
+	/*********************************************************************
+	 * PROC - Add the new stadium object to the program's stadium lists.
+	 *********************************************************************/
 	InsertToLists(stadiumsAlphabetical,
     		   	  stadiumsTeamName,
     		   	  stadiumsAFC,
@@ -439,13 +571,35 @@ void AddStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 	 * PROC - Add the stadium to the map of all stadiums.
 	 *********************************************************************/
 	stadiumMap.Put(stadiumPtr->get_stadium_name(), *stadiumPtr);
-cout << "test";
-cin.ignore(1000, '\n');
-	SaveTrips(stadiumsAFC, stadiumsNFC, stadiumMap, stadiumGraph);
+
+	/*********************************************************************
+	 * INPUT - Update the pre-programmed trips with the new stadium in
+	 *         the destinations list.
+	 *********************************************************************/
+	SaveTrips(stadiumsNFC, stadiumsAFC, stadiumMap, stadiumGraph);
 
 	cout << SUCCESS;
 }
 
+/*************************************************************************
+ * FUNCTION AddTeam
+ * -----------------------------------------------------------------------
+ * This function allows an admin to add a new team to an existing
+ * stadium within the program.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumName     : The list to store all stadiums, sorted by stadium name.
+ * 	teamName        : The list to store all stadiums, sorted by team name.
+ * 	afcTeams        : The list to store all stadiums in the AFC.
+ * 	nfcTeams        : The list to store all stadiums in the NFC.
+ * 	openRoofs       : The list to store all stadiums with open roofs.
+ * 	retractableRoofs: The list to store all stadiums with retractable roofs.
+ * 	openingDate     : The list to store all stadiums, sorted by opening date.
+ * 	stadiumMap      : The map which has all stadiums stored.
+ *
+ * POST-CONDITIONS -
+ * 	The new team will be added to the appropriate stadium.
+ *************************************************************************/
 void AddTeam(Map<string, NFL_Stadium>& stadiumMap)
 {
 	/*********************************************************************
@@ -491,10 +645,19 @@ void AddTeam(Map<string, NFL_Stadium>& stadiumMap)
 	cout << NAME_PROMPT;
 	getline(cin, teamName);
 
+	/*********************************************************************
+	 * INPUT - Get the team's conference.
+	 *********************************************************************/
 	teamConf = conference(ErrorCheckNum(2, 1, CONF_PROMPT) - 1);
 
+	/*********************************************************************
+	 * PROC - Create the team object.
+	 *********************************************************************/
 	teamPtr = new Team(teamName, teamConf);
 
+	/*********************************************************************
+	 * INPUT - Get the stadium to add the team to.
+	 *********************************************************************/
 	do
 	{
 		cout << STADIUM_PROMPT;
@@ -512,18 +675,48 @@ void AddTeam(Map<string, NFL_Stadium>& stadiumMap)
 		}
 	}while(loopAgain);
 
+	/*********************************************************************
+	 * PROC - Add the team to the stadium.
+	 *********************************************************************/
 	teamStadium->add_team(*teamPtr);
 	cout << SUCCESS;
 }
 
+/*************************************************************************
+ * FUNCTION ChangeTeam
+ * -----------------------------------------------------------------------
+ * This function allows an admin to modify an existing team object.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumMap      : The map which has all stadiums stored.
+ *
+ * POST-CONDITIONS -
+ * 	The team object will be updated.
+ *************************************************************************/
 void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap)
 {
+	/*********************************************************************
+	 * CONSTANTS
+	 * -------------------------------------------------------------------
+	 * USED FOR OUTPUT
+	 * -------------------------------------------------------------------
+	 * STADIUM_PROMPT : Prompts the user for the name of the stadium
+	 *  				the team plays at.
+	 * STADIUM_ERROR  : Output if the user enters an incorrect stadium
+	 *                  name.
+	 * TEAM_ERROR     : Output if the user declines to modify all teams
+	 *                  at their chosen stadium.
+	 * CHANGE_NAME    : Prompts the user for a change in name for the team.
+	 * NAME_PROMPT    : Output when the user enters the new name.
+	 * CHANGE_CONF    : Prompts if the user wants to modify the conference.
+	 * RETURN         : A closing output for user feedback.
+	 *********************************************************************/
 	const string STADIUM_PROMPT = "Which stadium does the team you wish to "
 			                      "modify play at? ";
 	const string STADIUM_ERROR  = "\nThat stadium does not exist. Please "
 			                      "enter a different stadium.\n\n";
 	const string TEAM_ERROR     = "You have declined to modify every team "
-			                      "for your chosen stadium. Would you like "
+			                      "for your chosen stadium.\nWould you like "
 			                      "to check another stadium instead (y/n)? ";
 	const string CHANGE_NAME    = "Would you like to modify the teams "
 			                      "name (y/n)? ";
@@ -533,33 +726,58 @@ void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap)
 	const string RETURN         = "\nChanges complete. Press <enter> to "
 			                      "return to the admin menu...\n";
 
-	string stadiumName;
-	NFL_Stadium* stadiumPtr;
-	List<Team>::Iterator teamIt;
-	bool   stadiumLoop;
-	bool   teamLoop;
-	bool   quit;
-	char   modifyTeam;
-	char   diffStadium;
-	char   changeName;
-	string teamName;
-	char   changeConf;
+	//VARIABLE DECLERATIONS
+	string stadiumName;         //IN   - Name of the team's stadium.
+	NFL_Stadium* stadiumPtr;    //PROC - Points at the team's stadium.
+	List<Team>::Iterator teamIt;//PROC - Used to iterate lists of teams.
+	bool   stadiumLoop;         //PROC - Controls the stadium name input loop.
+	bool   teamLoop;            //PROC - Controls the team selection loop.
+	bool   quit;                //PROC - Controls the main do-while loop.
+	char   modifyTeam;          //IN   - If the user wants to modify the
+	                            //       team.
+	char   diffStadium;         //IN   - If the user wants to switch to a
+	                            //       different stadium.
+	char   changeName;          //IN   - If the user wants to change the
+	                            //       team's name.
+	string teamName;            //IN   - The team's new name.
+	char   changeConf;          //IN   - If the user wants to change the
+	                            //       teams conference.
 
+	/*********************************************************************
+	 * IN - Select the stadium the team plays at and the correct team
+	 *      from that stadium.
+	 *********************************************************************/
 	do
 	{
+		/*****************************************************************
+		 * INPUT - Get the team's name.
+		 *****************************************************************/
 		cout << STADIUM_PROMPT;
 		getline(cin, stadiumName);
 
+		/*****************************************************************
+		 * PROC - If the stadium name cannot be found then the program
+		 *        will prompt for a new one.
+		 *****************************************************************/
 		if(stadiumMap.Find(stadiumName) == NULL)
 		{
 			cout << STADIUM_ERROR;
 			stadiumLoop = true;
 		}
-		else
+		else//Else if the name is found...
 		{
+			/*************************************************************
+			 * PROC - Get a reference to the stadium.
+			 ************************************************************/
 			stadiumPtr = &((stadiumMap.Find(stadiumName))->ModValue());
 			stadiumLoop = false;
 
+			/*************************************************************
+			 * INPUT - Get which team at the stadium the user wants to
+			 *         modify. If they decline every team at the chosen
+			 *         stadium they are prompted to enter a new stadium,
+			 *         or they can choose to exit.
+			 *************************************************************/
 			teamIt = (stadiumPtr->return_teams()).Begin();
 			teamLoop = true;
 			while(teamLoop)
@@ -593,16 +811,24 @@ void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap)
 		}
 	}while(stadiumLoop);
 
+	/*********************************************************************
+	 * PRCO - Allow the admin to make changes to the team they selected.
+	 *********************************************************************/
 	if(!quit)
 	{
+		/*****************************************************************
+		 * INPUT - Allow the user to change the team's name.
+		 *****************************************************************/
 		changeName = GetInput(CHANGE_NAME, 'Y', 'N', cout, cin);
-
 		if(changeName == 'Y')
 		{
 			cout << NAME_PROMPT;
 			getline(cin, teamName);
 		}
 
+		/*****************************************************************
+		 * INPUT - Allow the user to change the team's conference.
+		 *****************************************************************/
 		cout << "The " << (*teamIt).GetName() << " currently play in the ";
 		if((*teamIt).GetConference() == AFC)
 		{
@@ -622,8 +848,10 @@ void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap)
 			cout << "AFC (y/n)? ";
 		}
 
+		/*****************************************************************
+		 * PROC - Change the team's conference.
+		 *****************************************************************/
 		changeConf = GetInput(" ", 'Y', 'N', cout, cin);
-
 		if(changeConf == 'Y')
 		{
 			if((*teamIt).GetConference() == AFC)
@@ -636,16 +864,37 @@ void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap)
 			}
 		}
 
+		/*****************************************************************
+		 * PROC - Change the team's name.
+		 *****************************************************************/
 		if(changeName == 'Y')
 		{
 			(*teamIt).SetName(teamName);
 		}
-	}
+	}//END if(!quit)
 
 	cout << RETURN;
 	cin.ignore(1000, '\n');
 }
 
+/*************************************************************************
+ * FUNCTION ChangeStadium
+ * -----------------------------------------------------------------------
+ * This function allows an admin to modify an existing stadium.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumName     : The list to store all stadiums, sorted by stadium name.
+ * 	teamName        : The list to store all stadiums, sorted by team name.
+ * 	afcTeams        : The list to store all stadiums in the AFC.
+ * 	nfcTeams        : The list to store all stadiums in the NFC.
+ * 	openRoofs       : The list to store all stadiums with open roofs.
+ * 	retractableRoofs: The list to store all stadiums with retractable roofs.
+ * 	openingDate     : The list to store all stadiums, sorted by opening date.
+ * 	stadiumMap      : The map which has all stadiums stored.
+ *
+ * POST-CONDITIONS -
+ * 	The stadium will have the changes selected enacted on it.
+ *************************************************************************/
 void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   List<NFL_Stadium>& stadiumsTeamName,
 				   List<NFL_Stadium>& stadiumsAFC,
@@ -655,10 +904,20 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   List<NFL_Stadium>& stadiumsDateOpened,
 				   Map<string, NFL_Stadium>& stadiumMap)
 {
-	const string STADIUM_PROMPT = "What is the name of the stadium you "
-			                      "wish to modify? ";
-	const string STADIUM_ERROR  = "\nThat stadium does not exist. Please "
-			                      "enter a different stadium.\n\n";
+	/*********************************************************************
+	 * CONSTANTS
+	 * -------------------------------------------------------------------
+	 * USED FOR OUTPUT
+	 * -------------------------------------------------------------------
+	 * STADIUM_PROMPT   : Prompts for the name of the stadium.
+	 * STADIUM_ERROR    : Output if the entered stadium could not be found.
+	 * STADIUM_MOD_MENU : A menu for options on how to modify the stadium.
+	 * SUCCESS          : Output at the end for user feedback.
+	 *********************************************************************/
+	const string STADIUM_PROMPT   = "What is the name of the stadium you "
+			                        "wish to modify? ";
+	const string STADIUM_ERROR    = "\nThat stadium does not exist. Please "
+			                        "enter a different stadium.\n\n";
 	const string STADIUM_MOD_MENU = "\nWhich field would you like to modify?\n"
 			                        "1) Name\n"
 			                        "2) Roof Type\n"
@@ -669,19 +928,24 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 	const string SUCCESS          = "\nYour changes have been saved. Now "
 			                        "returning to the admin menu.\n\n";
 
-	string stadiumName;
-	NFL_Stadium* stadiumPtr;
-	bool  stadiumLoop;
-	int   userSelection;
-	int   newRoof;
-	long  capacity;
-	int   year;
-	int   month;
-	int   day;
-	Date* datePtr;
-	NFL_Stadium temp;
-	List<NFL_Stadium>::Iterator stadiumIt;
+	//VARIABLE DECLERATIONS
+	string stadiumName;     //IN   - The stadium's name.
+	NFL_Stadium* stadiumPtr;//PROC - Points at the stadium.
+	bool  stadiumLoop;      //PROC - Controls the input loop.
+	int   userSelection;    //IN   - Stores the users menu choice.
+	int   newRoof;          //IN   - Which roof the stadium should have.
+	long  capacity;         //IN   - The stadium's capacity.
+	int   year;             //IN   - The stadium's opening date.
+	int   month;            //IN   - The stadium's opening month.
+	int   day;              //IN   - The stadium's opening day.
+	Date* datePtr;          //PROC - Creates new date objects.
+	NFL_Stadium temp;       //PROC - Used to modify the stadium.
+	List<NFL_Stadium>::Iterator stadiumIt;//PROC - Iterates stadium lists.
 
+	/*********************************************************************
+	 * INPUT - Get the ename of the stadium to modify and create a
+	 *         reference to the object.
+	 *********************************************************************/
 	do
 	{
 		cout << STADIUM_PROMPT;
@@ -698,15 +962,23 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 			stadiumLoop = false;
 		}
 	}while(stadiumLoop);
-
 	temp = *stadiumPtr;
 
+	/*********************************************************************
+	 * PROC - Allow the admin to make changes to the stadium they selected.
+	 *********************************************************************/
 	do
 	{
+		/*****************************************************************
+		 * INPUT - Get the field they want to modify.
+		 *****************************************************************/
 		userSelection = ErrorCheckNum(4, 0, STADIUM_MOD_MENU);
 
 		switch(userSelection)
 		{
+		/*****************************************************************
+		 * PROC - Change the stadium's name.
+		 *****************************************************************/
 		case 1:
 			cout << "\nThe stadium's current name is: "
 			     << temp.get_stadium_name()
@@ -718,6 +990,10 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 			temp.set_stadium_name(stadiumName);
 
 			break;
+
+		/*****************************************************************
+		 * PROC - Change the stadium's roof type.
+		 *****************************************************************/
 		case 2:
 			cout << "\nThe stadium's current roof is "
 			     << (temp.get_roof() == OPEN  ? "open." :
@@ -735,6 +1011,10 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 			temp.set_roof(roof_type(newRoof - 1));
 
 			break;
+
+		/*****************************************************************
+		 * PROC - Change the stadium's capacity.
+		 *****************************************************************/
 		case 3:
 			cout << "\nThe stadium's current capacity is: "
 			     << temp.get_capacity()
@@ -746,6 +1026,10 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 			temp.set_capacity(capacity);
 
 			break;
+
+		/*****************************************************************
+		 * PROC - Change the stadium's opening date.
+		 *****************************************************************/
 		case 4:
 			cout << "\nThe stadium's current opening date is: "
 			     << (temp.get_opening_date()).printDate()
@@ -767,7 +1051,14 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 			temp.set_opening_date(*datePtr);
 
 			break;
+
+		/*****************************************************************
+		 * PROC - When the admin is done making changes the program updates.
+		 *****************************************************************/
 		case 0:
+			/*************************************************************
+			 * PROC - Remove the current stadium object from the program.
+			 *************************************************************/
 			RemoveFromLists(stadiumsAlphabetical,
 					      	stadiumsTeamName,
 					      	stadiumsAFC,
@@ -776,7 +1067,11 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 					      	stadiumsRetractableRoof,
 					      	stadiumsDateOpened,
 					      	stadiumPtr);
+			stadiumMap.Erase(stadiumPtr->get_stadium_name());
 
+			/*****************************************************************
+			 * PROC - Replace the old object with the new one.
+			 *****************************************************************/
 			InsertToLists(stadiumsAlphabetical,
 					      stadiumsTeamName,
 					      stadiumsAFC,
@@ -785,16 +1080,33 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 					      stadiumsRetractableRoof,
 					      stadiumsDateOpened,
 					      &temp);
-
-			stadiumMap.Erase(stadiumPtr->get_stadium_name());
 			stadiumMap.Put(temp.get_stadium_name(), temp);
 
 			cout << SUCCESS;
 			break;
-		}
+		}//END switch(userSelection)
 	}while(userSelection != 0);
 }
 
+/*************************************************************************
+ * FUNCTION RemoveStadium
+ * -----------------------------------------------------------------------
+ * This function allows an admin to remove an existing stadium.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumName     : The list to store all stadiums, sorted by stadium name.
+ * 	teamName        : The list to store all stadiums, sorted by team name.
+ * 	afcTeams        : The list to store all stadiums in the AFC.
+ * 	nfcTeams        : The list to store all stadiums in the NFC.
+ * 	openRoofs       : The list to store all stadiums with open roofs.
+ * 	retractableRoofs: The list to store all stadiums with retractable roofs.
+ * 	openingDate     : The list to store all stadiums, sorted by opening date.
+ * 	stadiumMap      : The map which has all stadiums stored.
+ * 	stadiumGraph    : The graph of all stadiums, used for trip planning.
+ *
+ * POST-CONDITIONS -
+ * 	The stadium will be removed from the program.
+ *************************************************************************/
 void RemoveStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   List<NFL_Stadium>& stadiumsTeamName,
 				   List<NFL_Stadium>& stadiumsAFC,
@@ -805,15 +1117,28 @@ void RemoveStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   Map<string, NFL_Stadium>& stadiumMap,
 				   Graph<NFL_Stadium>&       stadiumGraph)
 {
+	/*********************************************************************
+	 * CONSTANTS
+	 * -------------------------------------------------------------------
+	 * USED FOR OUTPUT
+	 * -------------------------------------------------------------------
+	 * NAME_PROMPT : Prompts for the name of the stadium.
+	 * NAME_ERROR  : Output if the entered stadium could not be found.
+	 *********************************************************************/
 	const string NAME_PROMPT = "\nEnter the name of the stadium you "
 			                   "wish to remove: ";
 	const string NAME_ERROR  = "\nThat stadium could not be found. Please "
 			                   "try again.\n";
 
-	string stadiumName;
-	NFL_Stadium* stadiumPtr;
-	bool getName;
+	//VARIABLE DECLERATIONS
+	string stadiumName;     //IN   - The stadium's name.
+	NFL_Stadium* stadiumPtr;//PROC - A pointer to the stadium object.
+	bool getName;           //PROC - Controls the input loop.
 
+	/*********************************************************************
+	 * INPUT - Get the name of the stadium to remove and make a reference
+	 *         to it.
+	 *********************************************************************/
 	do
 	{
 		cout << NAME_PROMPT;
@@ -831,6 +1156,9 @@ void RemoveStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 		}
 	}while(getName);
 
+	/*********************************************************************
+	 * PROC - Remove the stadium from the program's storage.
+	 *********************************************************************/
 	RemoveFromLists(stadiumsAlphabetical,
 			      	stadiumsTeamName,
 			      	stadiumsAFC,
@@ -839,16 +1167,36 @@ void RemoveStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 			      	stadiumsRetractableRoof,
 			      	stadiumsDateOpened,
 			      	stadiumPtr);
-
 	stadiumMap.Erase(stadiumPtr->get_stadium_name());
-
 	stadiumGraph.EraseVertex(stadiumGraph.GetVertex(*stadiumPtr));
 
+	/*********************************************************************
+	 * PROC - Recreate the pre-planned trips without the now removed
+	 *        stadium.
+	 *********************************************************************/
 	SaveTrips(stadiumsAFC, stadiumsNFC, stadiumMap, stadiumGraph);
 
 	cout << endl;
 }
 
+/*************************************************************************
+ * FUNCTION RemoveTeam
+ * -----------------------------------------------------------------------
+ * This function allows an admin to remove an existing team.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumName     : The list to store all stadiums, sorted by stadium name.
+ * 	teamName        : The list to store all stadiums, sorted by team name.
+ * 	afcTeams        : The list to store all stadiums in the AFC.
+ * 	nfcTeams        : The list to store all stadiums in the NFC.
+ * 	openRoofs       : The list to store all stadiums with open roofs.
+ * 	retractableRoofs: The list to store all stadiums with retractable roofs.
+ * 	openingDate     : The list to store all stadiums, sorted by opening date.
+ * 	stadiumMap      : The map which has all stadiums stored.
+ *
+ * POST-CONDITIONS -
+ * 	The team will be removed from the program.
+ *************************************************************************/
 void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 		   	    List<NFL_Stadium>& stadiumsTeamName,
 		   	    List<NFL_Stadium>& stadiumsAFC,
@@ -858,6 +1206,17 @@ void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 		   	    List<NFL_Stadium>& stadiumsDateOpened,
 		   	    Map<string, NFL_Stadium>& stadiumMap)
 {
+	/*********************************************************************
+	 * CONSTANTS
+	 * -------------------------------------------------------------------
+	 * USED FOR OUTPUT
+	 * -------------------------------------------------------------------
+	 * STADIUM_PROMPT : Prompts for the name of the stadium.
+	 * STADIUM_ERROR  : Output if the entered stadium could not be found.
+	 * TEAM_ERROR     : Output if the user doesn't want to remove any
+	 *                  teams from their chosen stadium.
+	 * RETURN         : Output at function close for user feedback.
+	 *********************************************************************/
 	const string STADIUM_PROMPT = "\nWhich stadium does the team you wish to "
 			                      "remove play at? ";
 	const string STADIUM_ERROR  = "\nThat stadium does not exist. Please "
@@ -865,43 +1224,56 @@ void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 	const string TEAM_ERROR     = "\nYou have declined to remove any team "
 			                      "from your chosen stadium. Would you like "
 			                      "to check another stadium instead (y/n)? ";
-	const string CHANGE_NAME    = "Would you like to modify the teams "
-			                      "name (y/n)? ";
-	const string NAME_PROMPT    = "Please enter the team's new name: ";
-	const string CHANGE_CONF    = "Would you like to switch the team's "
-			                      "conference (y/n)?";
 	const string RETURN         = "\nChanges complete. Press <enter> to "
 			                      "return to the admin menu...\n";
 
-	string stadiumName;
-	NFL_Stadium* stadiumPtr;
-	NFL_Stadium  tempStadium;
-	List<Team>::Iterator teamIt;
-	bool   stadiumLoop;
-	bool   teamLoop;
-	bool   quit;
-	char   removeTeam;
-	char   diffStadium;
-	string teamName;
+	//VARIABLE DECLERATIONS
+	string stadiumName;         //IN   - The stadium's name.
+	NFL_Stadium* stadiumPtr;    //PROC - A pointer to the stadium.
+	NFL_Stadium  tempStadium;   //PROC - A temporary reference to the stadium.
+	List<Team>::Iterator teamIt;//PROC - Iterates lists of teams.
+	bool   stadiumLoop;         //PROC - Controls the stadium input loop.
+	bool   teamLoop;            //PROC - Controls the team input loop.
+	bool   quit;                //PROC - Allows the user to exit early.
+	char   removeTeam;          //IN   - Used to select which team to remove.
+	char   diffStadium;         //IN   - Used to switch to a different stadium.
+	string teamName;            //IN   - Name of the team to remove.
 
-	do
+	/*********************************************************************
+	 * INPUT - Get a reference to the stadium the team plays at.
+	 *********************************************************************/
+	do//while(stadiumLoop)
 	{
+		/*****************************************************************
+		 * INPUT - Get the name of the stadium.
+		 *****************************************************************/
 		cout << STADIUM_PROMPT;
 		getline(cin, stadiumName);
 
+		/*****************************************************************
+		 * PROC - If the stadium could not be found then prompt for a new
+		 *        selection.
+		 *****************************************************************/
 		if(stadiumMap.Find(stadiumName) == NULL)
 		{
 			cout << STADIUM_ERROR;
 			stadiumLoop = true;
 		}
-		else
+		else//Else if the stadium does exist...
 		{
+			/*************************************************************
+			 * PROC - Create a reference to the stadium.
+			 *************************************************************/
 			stadiumPtr  = &((stadiumMap.Find(stadiumName))->ModValue());
 			tempStadium = *stadiumPtr;
 
 			teamIt = tempStadium.return_teams().Begin();
 
 			cout << endl;
+
+			/*************************************************************
+			 * INPUT - Select which team of the stadium to remove.
+			 *************************************************************/
 			do
 			{
 				removeTeam = GetInput("Do you wish to remove the " +
@@ -934,10 +1306,19 @@ void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 		}
 	}while(stadiumLoop);
 
+	/*********************************************************************
+	 * PROC - Delete the team.
+	 *********************************************************************/
 	if(!quit)
 	{
+		/*****************************************************************
+		 * PROC - Remove the team from the stadium object.
+		 *****************************************************************/
 		tempStadium.remove_team(teamIt);
 
+		/*****************************************************************
+		 * PROC - Remove the current stadium object from program.
+		 *****************************************************************/
 		RemoveFromLists(stadiumsAlphabetical,
 				      	stadiumsTeamName,
 				      	stadiumsAFC,
@@ -946,7 +1327,11 @@ void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 				      	stadiumsRetractableRoof,
 				      	stadiumsDateOpened,
 				      	stadiumPtr);
+		stadiumMap.Erase(stadiumPtr->get_stadium_name());
 
+		/*****************************************************************
+		 * PROC - Replace the stadium with its modified version.
+		 *****************************************************************/
 		InsertToLists(stadiumsAlphabetical,
 				      stadiumsTeamName,
 				      stadiumsAFC,
@@ -955,39 +1340,59 @@ void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 				      stadiumsRetractableRoof,
 				      stadiumsDateOpened,
 				      &tempStadium);
-
-		stadiumMap.Erase(stadiumPtr->get_stadium_name());
 		stadiumMap.Put(tempStadium.get_stadium_name(), tempStadium);
 
 		cout << RETURN;
 		cin.ignore(1000, '\n');
 	}
-	else
+	else//Allows the user to exit without making changes.
 	{
 		cout << endl;
 	}
 }
 
-
 /*************************************************************************
  * FUNCTION RemoveSouv
- * 	This function removes a souvinier from the map and list
- **************************************************************************/
-void RemoveSouv( Map<string, Souvenir>& souvenirMap,
-					List<Souvenir>		&souvenirList)
+ * -----------------------------------------------------------------------
+ * This function allows an admin to remove an existing souvenir.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	souvenirMap  : A map which stores all souvenir objects.
+ * 	souvenirList : A list which stores all souvenir objects.
+ *
+ * POST-CONDITIONS -
+ * 	The souvenir will be removed from the program.
+ *************************************************************************/
+void RemoveSouv(Map<string, Souvenir>& souvenirMap,
+				List<Souvenir>&        souvenirList)
 {
-	string souvName;
+	//VARIABLE DECLERATIONS
+	string souvName;//IN - The name of the souvenir to remove.
 
+	/*********************************************************************
+	 * INPUT - Get the name of the souvenir to delete.
+	 *********************************************************************/
 	cout << "\nWhich Souvenier do you wish to remove? ";
 	getline(cin, souvName);
 
+	/*********************************************************************
+	 * PROC - If the souvenir exists then delete it. Otherwise return to
+	 *        the admin menu.
+	 *********************************************************************/
 	if(souvenirMap.Find(souvName) != NULL)
 		{
 			cout << souvenirMap.Find(souvName)->GetValue().Print() << endl;
 
-			//IF-STATEMENT: Prompts user to confimr the deletion
-			if((GetInput("Are you sure you wish to remove " + souvName+ " (y/n)? ", 'Y', 'N', cout, cin)) == 'Y')
+			/*************************************************************
+			 * INPUT - Prompts to make sure the user wants to remove
+			 *         the chosen souvenir.
+			 *************************************************************/
+			if((GetInput("Are you sure you wish to remove " + souvName
+					   + " (y/n)? ", 'Y', 'N', cout, cin)) == 'Y')
 			{
+				/*********************************************************
+				 * PROC - Delete the souvenir.
+				 *********************************************************/
 				List<Souvenir>::Iterator souvIt;
 				souvIt = souvenirList.Search(souvenirMap.Find(souvName)->ModValue());
 				souvenirList.Erase(souvIt);
@@ -998,31 +1403,64 @@ void RemoveSouv( Map<string, Souvenir>& souvenirMap,
 				cout << "\n Canceling Removal.\n";
 			}
 		}
-		else
-		{
-			cout << "\nThat souvenir is not available.\n";
-		}
+	else
+	{
+		cout << "\nThat souvenir is not available.\n";
+	}
 }
 
 
 /*************************************************************************
- * FUNCTION RemoveSouv
- * 	This function adds a new souvinier to the map and list
- **************************************************************************/
-void AddSouv( Map<string, Souvenir>& souvenirMap,
-		List<Souvenir>		&souvenirList)
+ * FUNCTION AddSouv
+ * -----------------------------------------------------------------------
+ * This function allows an admin to add a new souvenir to the program.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	souvenirMap  : A map which stores all souvenir objects.
+ * 	souvenirList : A list which stores all souvenir objects.
+ *
+ * POST-CONDITIONS -
+ * 	The souvenir will be added from the program.
+ *************************************************************************/
+void AddSouv(Map<string, Souvenir>& souvenirMap,
+			List<Souvenir>&         souvenirList)
 {
+	/*********************************************************************
+	 * CONSTANTS
+	 * -------------------------------------------------------------------
+	 * USED FOR OUTPUT
+	 * -------------------------------------------------------------------
+	 * RETURN         : Output at function close for user feedback.
+	 *********************************************************************/
+	const string RETURN         = "\nChanges complete. Press <enter> to "
+			                      "return to the admin menu...\n";
 
-	string	name;
-	float	cost;
+	//VARIABLE DECLERATIONS
+	string	name;//IN - The souvenir's name.
+	float	cost;//IN - The souvenir's cost.
 
-	cout << "What is the name of the new Souvenir? ";
+	/*********************************************************************
+	 * INPUT - Get the name of the souvenir.
+	 *********************************************************************/
+	cout << "What is the name of the new souvenir? ";
 	getline(cin, name);
 
+	/*********************************************************************
+	 * INPUT - Get the cost of the souvenir.
+	 *********************************************************************/
 	cost = ErrorCheckNum(9999.99, 0.0, "Enter the price of the item: ");
-	Souvenir	newItem(name, cost);
+	cout << endl;
 
+	/*********************************************************************
+	 * PROC - Create the new object.
+	 *********************************************************************/
+	Souvenir newItem(name, cost);
+
+	/*********************************************************************
+	 * PROC - Add it to the program.
+	 *********************************************************************/
 	souvenirMap.Put(name, newItem);
 	souvenirList.InsertBack(newItem);
 
+	cout << RETURN;
 }

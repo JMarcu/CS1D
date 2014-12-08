@@ -29,18 +29,16 @@ void BuySouvenir(const string& stadiumName,
 
 	cout << left;
 	cout << PURCHASE_PROMPT;
-	cout << setw(20) << "Souvenir" << '|' << " Price" << endl;
-	cout << setfill('-') << setw(20) << '-' << '|' << setw(8) << '-' << endl;
-	cout << setfill(' ');
 
 	//FOR-LOOP: Cycles through list outputting each souvinier's name
 	//			and price to the user
 	souvIt  = souvenirList.Begin();
 	while(souvIt != souvenirList.End())
 	{
-		cout << setw(20) << souvIt->GetElem().GetName() << "| " ;
-		cout << souvIt->GetElem().GetCost();
-		cout << endl;
+		cout << souvNumber << ") "
+		     << setw(20) << (souvIt->GetElem().GetName()) << "| "
+		     << souvIt->GetElem().GetCost()
+		     << endl;
 		++souvNumber;
 		++souvIt;
 	}

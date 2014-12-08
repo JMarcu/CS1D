@@ -156,7 +156,7 @@ enum	add_Type{
 							BuySouvenir(single_stadium, souvenirList, purchaseOrders);
 						}
 
-						cout << "\nWould you like to enter another stadium? (y/n)\n";
+						cout << "Would you like to enter another stadium? (y/n)\n";
 						cout << "Enter Selection: ";
 						cont = GetInput("", 'y', 'n', cout, cin) == 'Y';
 					}
@@ -262,7 +262,6 @@ enum	add_Type{
 					BuySouvenir(single_stadium, souvenirList, purchaseOrders);
 					cont = false;
 				}
-
 				cout << endl;
 			}while(cont);
 
@@ -272,7 +271,15 @@ enum	add_Type{
 		* PROC - Lists stadiums currently in the list
 		*************************************************************/
 		case LIST:
-			PrintList(trip_list);
+			if(!trip_list.Empty())
+			{
+				PrintList(trip_list);
+			}
+			else
+			{
+				cout << "No stadiums have been added to your trip yet.\n\n";
+			}
+
 			break;
 	 	}//END switch(stadiumsToAdd)
 

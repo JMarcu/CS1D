@@ -81,7 +81,7 @@ void AdminMenu(List<NFL_Stadium>& stadiumsAlphabetical,
 			                   "6) Remove a Stadium\n"
 			                   "7) Add a Souvenir\n"
 			                   "8) Remove a Souvenir\n"
-							   "0) Return to Main Menu\n\n"
+							   "0) Return to Main Menu\n"
 							   "Enter Selection: ";
 
 	//USED FOR PROCESSING
@@ -115,7 +115,7 @@ void AdminMenu(List<NFL_Stadium>& stadiumsAlphabetical,
 	 *        the main menu. If they entered 0000 then they are returned
 	 *        straight to the main menu.
 	 *********************************************************************/
-	if(password == 1234)
+	if(password == ADMIN_PASSWORD)
 	{
 		do
 		{
@@ -167,6 +167,8 @@ void AdminMenu(List<NFL_Stadium>& stadiumsAlphabetical,
 							   	  stadiumsDateOpened,
 							   	  stadiumMap);
 					break;
+
+			    //Remove an existing team.
 				case REMOVE_TEAM:
 					RemoveTeam(stadiumsAlphabetical,
 							   stadiumsTeamName,
@@ -177,6 +179,8 @@ void AdminMenu(List<NFL_Stadium>& stadiumsAlphabetical,
 							   stadiumsDateOpened,
 							   stadiumMap);
 					break;
+
+			    //Remove an existing stadium.
 				case REMOVE_STADIUM:
 					RemoveStadium(stadiumsAlphabetical,
 							   	  stadiumsTeamName,
@@ -189,20 +193,22 @@ void AdminMenu(List<NFL_Stadium>& stadiumsAlphabetical,
 							   	  stadiumGraph);
 					break;
 
+				//Add a new souvenir.
 				case ADD_SOUV:
 					AddSouv(souvenirMap,
 							 souvenirList);
 
 					break;
 
+				//Remove an existing souvenir.
 				case REMOVE_SOUV:
 					RemoveSouv(souvenirMap,
 							souvenirList);
-
+					cout << endl;
 					break;
-			}
+			}//END switch(userSelection)
 		}while(userSelection != RETURN_TO_MAIN);
 
 		cout << endl;
-	}
+	}//END if(password = ADMIN_PASSWORD)
 }

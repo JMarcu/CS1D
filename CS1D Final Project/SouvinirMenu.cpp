@@ -38,7 +38,8 @@ void SouvenirMenu(const Map<string, Souvenir>& souvenirMap,
 	 * -------------------------------------------------------------------
 	 * MENU : The main menu for the program.
 	 *********************************************************************/
-	const string MENU = "  Souvenir Menu:\n"
+	const string MENU = "Souvenir Menu:\n"
+					    "---------------------\n"
 			            "1) List All Souvenirs\n"
 			            "2) Find a Souvinier\n"
 			            "0) Exit\n"
@@ -68,7 +69,7 @@ void SouvenirMenu(const Map<string, Souvenir>& souvenirMap,
 			//Search for a specific souvenir and print its information.
 			case FIND:
 				//Get the name of the souvenir to find.
-				cout << "\nEnter the name of the souvenir you wish to search for: ";
+				cout << "Enter the name of the souvenir you wish to search for: ";
 				getline(cin, name);
 
 				//If the souvenir was found print its info. Otherwise let the
