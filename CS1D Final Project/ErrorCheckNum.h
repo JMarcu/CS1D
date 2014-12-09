@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef ERRORCHECKNUM_H_
@@ -16,8 +16,8 @@
 *
 * FUNCTION Template ErrorCheckInput
 * ________________________________________________________________________
-*	This function prompts the user for a numerical  input reads, in the input
-* and error checks it against an upper and lower bound. If the input is
+* This function prompts the user for a numerical  input reads, in the
+* input and error checks it against an upper and lower bound. If the input is
 * outside the bounds or a character it outputs an error message
 * ________________________________________________________________________
 * PRE-CONDITIONS:

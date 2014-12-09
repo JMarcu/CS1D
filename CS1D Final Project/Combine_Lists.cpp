@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 
@@ -16,36 +16,48 @@
  * This function combines two lists into one, without any duplicates
  * -----------------------------------------------------------------------
  * PRE-CONDITIONS -
- * 	list_one
- * 	list_two
+ * 	list_one : The list to copy from.
+ * 	list_two : The list that is copied into.
  *
  * POST-CONDITIONS -
- * 	list_One will have all non-repeating elements from list_two
+ * 	list_two will have all non-repeating elements of list_one
  *************************************************************************/
  void Combine_StadiumLists(const List<NFL_Stadium>& List_one,
-		 List<NFL_Stadium>& List_two)
+		                         List<NFL_Stadium>& List_two)
  {
-	 List<NFL_Stadium>::Iterator stadiumIt_One;
-	 List<NFL_Stadium>::Iterator stadiumIt_Two;
-	 bool	found;
+	 List<NFL_Stadium>::Iterator stadiumIt_One;//PROC - Iterates list_one
+	 List<NFL_Stadium>::Iterator stadiumIt_Two;//PROC - Iterates list_two
+	 bool found;//PROC - True if a member was found to copy.
 
-
+	 /********************************************************************
+	  * PROC - Iterate over every element of list one.
+	  ********************************************************************/
 	 stadiumIt_One = List_one.Begin();
 	 while(stadiumIt_One != List_one.End())
 	 {
 		found = false;
 		stadiumIt_Two = List_two.Begin();
 
+	   /******************************************************************
+	    * PROC - Iterate over every element of list two to see if the
+	    *        element from list one matches any of them.
+	    ******************************************************************/
 		while(stadiumIt_Two != List_two.End() && !found)
 		 {
 			found = (*stadiumIt_One == *stadiumIt_Two);
 
 			stadiumIt_Two++;
 		 }
+
+	   /******************************************************************
+		* PROC - If the element from list one did not match any element
+		*        from list two, then copy it to list two.
+	    ******************************************************************/
 		if(!found)
 		{
 			List_two.InsertBack(*stadiumIt_One);
 		}
+
 		stadiumIt_One++;
 	 }
  }

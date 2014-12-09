@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef STACK_H_
@@ -14,17 +14,22 @@
   //#include "DoublyLinkedListNode.h"
     //#include <cstddef>
 
+
+//A stack made by wrapping a doubly linked list.
 template <typename ElemType>
 class Stack
 {
 	public:
-		int Size() const
+	   /*******************************************
+		* * * *          ACCESSORS          * * * *
+		*******************************************/
+		int Size() const                      //Returns the number of elements.
 			{return D.Size();}
-		bool Empty() const
+		bool Empty() const                    //Returns true if empty.
 			{return D.IsEmpty();}
-		const ElemType& Peek() const
+		const ElemType& Peek() const          //Returns the first element.
 			{return D.GetHead()->GetElem();}
-		bool Search(const ElemType& key) const
+		bool Search(const ElemType& key) const//Returns true if the element was found.
 		{
 			DLLNode<ElemType>* searchPtr = D.GetHead();
 			bool keepSearching = true;
@@ -50,15 +55,16 @@ class Stack
 			return found;
 		}
 
-		void Push(const ElemType& toPush)
+	   /*******************************************
+		* * * *          MUTATORS           * * * *
+		*******************************************/
+		void Push(const ElemType& toPush)//Add an element to the top.
 			{D.AddFront(toPush);}
-		void Pop()
+		void Pop()                       //Remove an element from the top.
 			{D.DeleteFront();}
 
 	private:
-		DoublyLinkedList<ElemType> D;
+		DoublyLinkedList<ElemType> D;//A doubly linked list.
 };
-
-
 
 #endif /* STACK_H_ */

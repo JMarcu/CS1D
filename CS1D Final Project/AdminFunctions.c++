@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 
@@ -235,7 +235,7 @@ void InsertToLists(List<NFL_Stadium>& stadiumsAlphabetical,
 }
 
 /*************************************************************************
- * FUNCTION RemoveToLists
+ * FUNCTION RemoveFromLists
  * -----------------------------------------------------------------------
  * This will remove a stadium object from the program's stadium lists.
  * -----------------------------------------------------------------------
@@ -572,12 +572,6 @@ void AddStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 	 *********************************************************************/
 	stadiumMap.Put(stadiumPtr->get_stadium_name(), *stadiumPtr);
 
-	/*********************************************************************
-	 * INPUT - Update the pre-programmed trips with the new stadium in
-	 *         the destinations list.
-	 *********************************************************************/
-	SaveTrips(stadiumsNFC, stadiumsAFC, stadiumMap, stadiumGraph);
-
 	cout << SUCCESS;
 }
 
@@ -711,7 +705,7 @@ void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap)
 	 * CHANGE_CONF    : Prompts if the user wants to modify the conference.
 	 * RETURN         : A closing output for user feedback.
 	 *********************************************************************/
-	const string STADIUM_PROMPT = "Which stadium does the team you wish to "
+	const string STADIUM_PROMPT = "\nWhich stadium does the team you wish to "
 			                      "modify play at? ";
 	const string STADIUM_ERROR  = "\nThat stadium does not exist. Please "
 			                      "enter a different stadium.\n\n";
@@ -832,11 +826,11 @@ void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap)
 		cout << "The " << (*teamIt).GetName() << " currently play in the ";
 		if((*teamIt).GetConference() == AFC)
 		{
-			cout << "AFC. ";
+			cout << "AFC.\n";
 		}
 		else
 		{
-			cout << "NFC. ";
+			cout << "NFC.\n";
 		}
 		cout << "Would you like to change their conference to the ";
 		if((*teamIt).GetConference() == AFC)
@@ -1170,12 +1164,6 @@ void RemoveStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 	stadiumMap.Erase(stadiumPtr->get_stadium_name());
 	stadiumGraph.EraseVertex(stadiumGraph.GetVertex(*stadiumPtr));
 
-	/*********************************************************************
-	 * PROC - Recreate the pre-planned trips without the now removed
-	 *        stadium.
-	 *********************************************************************/
-	SaveTrips(stadiumsAFC, stadiumsNFC, stadiumMap, stadiumGraph);
-
 	cout << endl;
 }
 
@@ -1222,7 +1210,7 @@ void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 	const string STADIUM_ERROR  = "\nThat stadium does not exist. Please "
 			                      "enter a different stadium.\n";
 	const string TEAM_ERROR     = "\nYou have declined to remove any team "
-			                      "from your chosen stadium. Would you like "
+			                      "from your chosen stadium.\nWould you like "
 			                      "to check another stadium instead (y/n)? ";
 	const string RETURN         = "\nChanges complete. Press <enter> to "
 			                      "return to the admin menu...\n";

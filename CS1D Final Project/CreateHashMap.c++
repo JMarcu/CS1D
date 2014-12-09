@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 
@@ -17,7 +17,7 @@
  * stadiums for the program.
  * -----------------------------------------------------------------------
  * PRE-CONDITIONS -
- * 	<none>
+ * 	stadiumMap : The map to initialize.
  *
  * POST-CONDITIONS -
  * 	Will return a reference to the newly instantiated hash map.

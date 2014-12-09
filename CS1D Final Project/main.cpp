@@ -150,7 +150,7 @@ int	main()
 			 *        trip to visit NFL stadiums.
 			 *************************************************************/
 			case	TRIP_MENU:
-				TripPlannerMenu(stadiumsAlphabetical,
+				Build_Custom_Trip(stadiumsAlphabetical,
 						 stadiumsTeamName,
 						 stadiumsAFC,
 						 stadiumsNFC,

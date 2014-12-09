@@ -4,10 +4,9 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
-
 #ifndef DOUBLYLINKEDLIST_H_
 #define DOUBLYLINKEDLIST_H_
 
@@ -25,7 +24,6 @@ class DoublyLinkedList
 		* * * * CONSTRUCTORS AND DESTRUCTORS * * * *
 		********************************************/
 		DoublyLinkedList(); //Generic Constructor
-		~DoublyLinkedList();//Destructor
 
 	   /*******************************************
 		* * * *          ACCESSORS          * * * *
@@ -84,32 +82,6 @@ DoublyLinkedList<ElemType>::DoublyLinkedList()
 
 	//Set size to zero.
 	size = 0;
-}
-
-/*************************************************************************
- * FUNCTION DoublyLinkedList (Constructor)
- * ______________________________________________________________________
- * Deletes all the nodes in the list before the list itself is
- * deleted.
- * ______________________________________________________________________
- * PRE-CONDITIONS -
- * 	<none>
- *
- * POST-CONDITIONS -
- * 	Safely deletes the list without memory leak.
- *************************************************************************/
-template <class ElemType>
-DoublyLinkedList<ElemType>::~DoublyLinkedList()
-{
-//	//Delete each node with its own destructor.
-//	while(!IsEmpty())
-//	{
-//		DeleteFront();
-//	}
-//
-//	//Deletes the sentinel nodes.
-//	delete head;
-//	delete tail;
 }
 
 /*************************************************************************

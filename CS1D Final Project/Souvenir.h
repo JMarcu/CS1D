@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef SOUVENIR_H_
@@ -62,26 +62,33 @@ class Souvenir
 		float  price;   //The souvenir's cost.
 };
 
+//Purchase orders for souvenirs.
 class PurchaseOrder
 {
 public:
+   /*******************************************
+	* * * * CONSTRUCTORS AND DESTRUCTOR * * * *
+	*******************************************/
 	PurchaseOrder()
 		{quantity = 0;}
 	PurchaseOrder(const Souvenir& prodInit, int amount)
 		{product = prodInit; quantity = amount;}
 
-	const Souvenir& GetSouvenir() const
-		{return product;}
+   /*******************************************
+	* * * *          ACCESSORS          * * * *
+	*******************************************/
+	const Souvenir& GetSouvenir() const       //Returns a reference to the
+		{return product;}                     //souvenir being bought.
 
-	int GetQuantity() const
-		{return quantity;}
+	int GetQuantity() const                   //Returns the number being
+		{return quantity;}                    //bought.
 
-	float GetTotalSale() const
-		{return product.GetCost() * quantity;}
+	float GetTotalSale() const                //Returns the total price
+		{return product.GetCost() * quantity;}//of the purchase.
 
 private:
-	Souvenir product;
-	int      quantity;
+	Souvenir product; //The souvenir being bought.
+	int      quantity;//The number of them being bought.
 };
 
 #endif /* SOUVENIR_H_ */

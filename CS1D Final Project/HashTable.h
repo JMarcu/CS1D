@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef HASHTABLE_H_
@@ -52,9 +52,9 @@ class HashNode
 	   /*******************************************
 		* * * *          MUTATORS           * * * *
 		*******************************************/
-		ElemType& ModValue()
-		{if (!deleted && !end)
-			return value;
+		ElemType& ModValue()                   //Returns a non-constant
+		{if (!deleted && !end)                 //reference to the element
+			return value;                      //so that it can be modified.
 		 else
 			 throw EmptyNode();
 		}
@@ -482,25 +482,11 @@ template <typename KeyType, typename ElemType>
 bool HashTable<KeyType, ElemType>::Erase(const KeyType& key)
 {
 	//VARIABLE DECLERATIONS
-	int  index;  //PROC - index of the node to delete.
 	bool success;//OUT  - if the node was found and deleted
 
 	//VARIABLE INITIALIZATIONS
 	success = false;
 
-	//Hash the key and get the index
-//	index = Find(key)->GetPosition();
-
-	//If the key points to a non-null, non-deleted node with a matching key
-	//then delete it and decrement the size counter.
-//	if ( bucket[index] != NULL    &&
-//		!bucket[index]->Deleted() &&
-//		 bucket[index]->GetKey() == key)
-//	{
-//		bucket[index]->Delete();
-//		--size;
-//		success = true;
-//	}
 	Find(key)->Delete();
 	--size;
 	success = true;

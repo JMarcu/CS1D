@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef DATECLASS_H_
@@ -14,7 +14,8 @@
 #include <iostream>
 using namespace std;
 
-enum Months{			//ENUM type storing the month of the year
+//Months of the year
+enum Months{
 			JAN = 1,
 			FEB,
 			MARCH,
@@ -44,10 +45,9 @@ class	Date{
 			void	setDate(Months newMonth, int newDay, int newYear);
 
 			//get Members	Used to access the private data members
-			int		getDay()	const;
-			int		getYear()	const;
-			Months	getMonth()	const;
-
+			int		getDay()	const; //Returns the day.
+			int		getYear()	const; //Returns the year.
+			Months	getMonth()	const; //Returns the month.
 			string	printDate() const; //Returns string with date
 
 			//Overloads == operator to check if dates are the same

@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef GRAPH_H_
@@ -177,10 +177,6 @@ class Graph
 				                         List<const Vertex<ElemType>*>   &destinations,
 				                         Stack<const Vertex<ElemType>* > &vertexStack,
 				                         Stack<const Edge<ElemType>* >   &edgeStack) const;
-
-		void BruteForce(const Vertex<ElemType>* start,
-				        Map<string, ElemType>*  destinations,
-				        Stack<const Vertex<ElemType>* > vertexStack);
 
 
 	   /*******************************************
@@ -744,23 +740,6 @@ const Vertex<ElemType>* Graph<ElemType>::Dijkstra(const Vertex<ElemType>*       
 	return newVertex;
 }
 
-template <typename ElemType>
-void Graph<ElemType>::BruteForce(const Vertex<ElemType>* start,
-		        Map<string, ElemType>*  destinations,
-		        Stack<const Vertex<ElemType>* > vertexStack)
-{
-	Tree<Vertex<ElemType>* > pathTree;
-	bool goToParent;
-	bool searchComplete;
-
-	searchComplete = false;
-
-	while(!searchComplete)
-	{
-
-	}
-}
-
 /*************************************************************************
  * FUNCTION AddVertex
  * -----------------------------------------------------------------------
@@ -818,11 +797,28 @@ void Graph<ElemType>::AddEdge(const Vertex<ElemType>* vertOne,
 	adjacencyMatrix[vertTwo->GetPosition()][vertOne->GetPosition()] = addPtr;
 }
 
+/*************************************************************************
+ * FUNCTION EraseVertex
+ * -----------------------------------------------------------------------
+ * Removes a vertex from the graph.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS
+ *  toErase : Points to the vertex to erase.
+ *
+ * POST-CONDITIONS
+ * 	Will erase the object pointed at by toErase.
+ *************************************************************************/
 template <typename ElemType>
 void Graph<ElemType>::EraseVertex(const Vertex<ElemType>* toErase)
 {
+	/*********************************************************************
+	 * PROC - Ensure that the vertex is in the graph.
+	 *********************************************************************/
 	if(vertexList.Search(*toErase) != vertexList.End())
 	{
+		/*****************************************************************
+		 * PROC - Remove all edges to and from the vertex.
+		 *****************************************************************/
 		for(int i = 0; i < size; ++i)
 		{
 			delete adjacencyMatrix[toErase->GetPosition()][i];
@@ -832,17 +828,39 @@ void Graph<ElemType>::EraseVertex(const Vertex<ElemType>* toErase)
 			adjacencyMatrix[i][toErase->GetPosition()] = NULL;
 		}
 
-		DecrementMatrix(toErase->GetPosition());
+		/*****************************************************************
+		 * PROC - Decrease the adjacency matrix size by one.
+		 *****************************************************************/
+//		DecrementMatrix(toErase->GetPosition());
 
+		/*****************************************************************
+		 * PROC - Erase the vertex from the vertex lsit.
+		 *****************************************************************/
 		vertexList.Erase(*toErase);
 	}
 }
 
+/*************************************************************************
+ * FUNCTION EraseEdge
+ * -----------------------------------------------------------------------
+ * Removes a edge from the graph.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS
+ *  toErase : Points to the edge to erase.
+ *
+ * POST-CONDITIONS
+ * 	Will erase the object pointed at by toErase.
+ *************************************************************************/
 template <typename ElemType>
 void Graph<ElemType>::EraseEdge(Edge<ElemType>* toErase)
 {
+	//Have the adjacency matrix locations associated with the edge point to
+	//NULL.
 	adjacencyMatrix[toErase->EndVertices()[0]][toErase->EndVertices()[1]] = NULL;
 	adjacencyMatrix[toErase->EndVertices()[1]][toErase->EndVertices()[0]] = NULL;
+
+	//Erase it from the edge list.
+	edgeList.Erase(toErase);
 
 	delete toErase;
 }
@@ -905,6 +923,18 @@ void Graph<ElemType>::IncrementMatrix()
 	adjacencyMatrix = matrix;
 }
 
+/*************************************************************************
+ * FUNCTION DecrementMatrix
+ * -----------------------------------------------------------------------
+ * This decrease the size of the adjacency matrix by one for if any
+ * vertices are removed.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS
+ *  deletedIndex : The index of the vertex which was removed.
+ *
+ * POST-CONDITIONS
+ * 	The adjacency matrix will be one size smaller in the x and y directions.
+ *************************************************************************/
 template <typename ElemType>
 void Graph<ElemType>::DecrementMatrix(int deletedIndex)
 {
@@ -914,7 +944,7 @@ void Graph<ElemType>::DecrementMatrix(int deletedIndex)
 	/*********************************************************************
 	 * PROC - Construct a new matrix of the desired size.
 	 *********************************************************************/
-	matrix = new Edge<ElemType>**[size];
+	matrix = new Edge<ElemType>**[size - 1];
 	for (int i = 0; i < size; ++i)
 	{
 		matrix[i] = new Edge<ElemType>*[size];

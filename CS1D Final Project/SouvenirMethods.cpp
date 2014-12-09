@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 
@@ -166,7 +166,17 @@ void Souvenir::SetCost(float cost)
 	price = cost;
 }
 
-
+/*************************************************************************
+ * FUNCTION operator!=
+ * -----------------------------------------------------------------------
+ * Overloaded to compare the names of the souvenirs.
+ * -----------------------------------------------------------------------
+ * PRECONDITIONS -
+ * compareTo : The other souvenir.
+ *
+ * POSTCONDITIONS -
+ * 	True if the two souvenirs don't have the same name.
+ *************************************************************************/
 bool  Souvenir::operator!=(const Souvenir& compareTo) const
 {
 	return itemName != compareTo.itemName;

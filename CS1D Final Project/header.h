@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #ifndef HEADER_H_
@@ -89,8 +89,12 @@ void GenerateStadiumLists(List<NFL_Stadium>&  stadiumName,
 						  List<NFL_Stadium>&  openingDate,
 						  const Map<string, NFL_Stadium>& stadiumMap);
 
-void CreateGraph(Graph<NFL_Stadium>& stadiumGraph,
-		         const List<NFL_Stadium>& stadiumList,
+/*************************************************************************
+ * FUNCTION CreateGraph
+ * 	This function instantiates the program's graph object.
+ *************************************************************************/
+void CreateGraph(Graph<NFL_Stadium>&             stadiumGraph,
+		         const List<NFL_Stadium>&        stadiumList,
 		         const Map<string, NFL_Stadium>& stadiumMap);
 
 /*************************************************************************
@@ -132,11 +136,6 @@ void SaveList(const List<NFL_Stadium>& saveThis, string saveFile);
  * 	This function saves the names of all Souvenir in a list to a text file.
  *************************************************************************/
 void  SaveSouvinirs(List<Souvenir>		&souvenirList);
-
-void SaveTrips(const List<NFL_Stadium>&  nfcList,
-		       const List<NFL_Stadium>&  afcList,
-		       const Map<string, NFL_Stadium>& stadiumMap,
-		       const Graph<NFL_Stadium>& stadiumGraph);
 
 /*************************************************************************
  * FUNCTION ListMenu
@@ -188,55 +187,53 @@ void TripPlannerMenu(const List<NFL_Stadium>& stadiumsAlphabetical,
 		             const Graph<NFL_Stadium>&       stadiumGraph,
 		             const List<Souvenir>& souvenirList);
 
-void AllStadiumsSDO(Stack<const NFL_Stadium*>& route,
-		List<NFL_Stadium>& destinations,
-		            const Map<string, NFL_Stadium>& stadiumMap);
-
-void AllStadiumsSFO(Stack<const NFL_Stadium*>& route,
-		List<NFL_Stadium>& destinations,
-		            const Map<string, NFL_Stadium>& stadiumMap);
-
-void AFCStadiumsSDO(Stack<const NFL_Stadium*>& route,
-		List<NFL_Stadium>& destinations,
-		            const Map<string, NFL_Stadium>& stadiumMap);
-
-void AFCStadiumsSFO(Stack<const NFL_Stadium*>& route,
-		List<NFL_Stadium>& destinations,
-		            const Map<string, NFL_Stadium>& stadiumMap);
-
-void NFCStadiumsSDO(Stack<const NFL_Stadium*>& route,
-		List<NFL_Stadium>& destinations,
-		            const Map<string, NFL_Stadium>& stadiumMap);
-
-void NFCStadiumsSFO(Stack<const NFL_Stadium*>& route,
-		List<NFL_Stadium>& destinations,
-		            const Map<string, NFL_Stadium>& stadiumMap);
-
+/*************************************************************************
+ * FUNCTION Build_Custom_Trip
+ * 	This function allows the user to create a list of stadiums they wish to
+ * 	visit on their trip. It then calculates a route to visit these
+ * 	stadiums and outputs the results to the console.
+ *************************************************************************/
 List<NFL_Stadium> Build_Custom_Trip(const List<NFL_Stadium>& stadiumsAlphabetical,
-		 const List<NFL_Stadium>& stadiumsTeamName,
-		 const List<NFL_Stadium>& stadiumsAFC,
-		 const List<NFL_Stadium>& stadiumsNFC,
-		 const List<NFL_Stadium>& stadiumsOpenRoof,
-		 const List<NFL_Stadium>& stadiumsRetractableRoof,
-		 const List<NFL_Stadium>& stadiumsDateOpened,
-		 const Map<string, NFL_Stadium>& stadiumMap,
-		 const List<Souvenir>& souvenirList,
-		 Map<string, List<PurchaseOrder> >& purchaseOrders);
+		 	 	 	 	 	 	    const List<NFL_Stadium>& stadiumsTeamName,
+		 	 	 	 	 	 	    const List<NFL_Stadium>& stadiumsAFC,
+		 	 	 	 	 	 	    const List<NFL_Stadium>& stadiumsNFC,
+		 	 	 	 	 	 	    const List<NFL_Stadium>& stadiumsOpenRoof,
+		 	 	 	 	 	 	    const List<NFL_Stadium>& stadiumsRetractableRoof,
+		 	 	 	 	 	 	    const List<NFL_Stadium>& stadiumsDateOpened,
+		 	 	 	 	 	 	    const Map<string, NFL_Stadium>& stadiumMap,
+		 	 	 	 	 	 	    const Graph<NFL_Stadium>&       stadiumGraph,
+		 	 	 	 	 	 	    const List<Souvenir>&           souvenirList);
 
+/*************************************************************************
+ * FUNCTION CreateHashMap
+ * 	This function combines two lists into one, without any duplicates
+ *************************************************************************/
 void Combine_StadiumLists(const List<NFL_Stadium>& List_one,
-		 List<NFL_Stadium>& List_two);
+							    List<NFL_Stadium>& List_two);
 
-Stack<const NFL_Stadium*> CustomRoute(const NFL_Stadium& start,
-		                       const List<NFL_Stadium>& destinations,
-		                       const Graph<NFL_Stadium>& stadiumGraph);
+/*************************************************************************
+ * FUNCTION CustomRoute
+ * 	This calculate a route for visiting user selected NFL stadiums.
+ *************************************************************************/
+Stack<const NFL_Stadium*> CustomRoute(const NFL_Stadium&        start,
+		                              const List<NFL_Stadium>&  destinations,
+		                              const Graph<NFL_Stadium>& stadiumGraph);
 
+/*************************************************************************
+ * FUNCTION BuySouvenir
+ * 	This allows users to plan on buying souvenirs at stadiums.
+ *************************************************************************/
 void BuySouvenir(const string& stadiumName,
 		         const List<Souvenir>& souvenirList,
 		         Map<string, List<PurchaseOrder> >& purchaseMap);
 
-void TripOutput(Stack<const NFL_Stadium*>&      route,
-		        List<NFL_Stadium>&  destinations,
-		        const Graph<NFL_Stadium>& stadiumGraph,
+/*************************************************************************
+ * FUNCTION TripOutput
+ * 	Outputs a trip to the console.
+ *************************************************************************/
+void TripOutput(Stack<const NFL_Stadium*>& route,
+		        List<NFL_Stadium>&         destinations,
+		        const Graph<NFL_Stadium>&  stadiumGraph,
 		        const Map<string, List<PurchaseOrder> >& purchaseOrders);
 
 /*************************************************************************
@@ -269,6 +266,33 @@ void AdminMenu(List<NFL_Stadium>& stadiumsAlphabetical,
 bool AlphabeticalOrder(string stringOne, string stringTwo);
 
 /*************************************************************************
+ * FUNCTION InsertToLists
+ * 	This will insert a new stadium object into the proper location in the
+ * 	program's stadium lists.
+ *************************************************************************/
+void InsertToLists(List<NFL_Stadium>& stadiumsAlphabetical,
+   	    		   List<NFL_Stadium>& stadiumsTeamName,
+   	    		   List<NFL_Stadium>& stadiumsAFC,
+   	    		   List<NFL_Stadium>& stadiumsNFC,
+   	    		   List<NFL_Stadium>& stadiumsOpenRoof,
+   	    		   List<NFL_Stadium>& stadiumsRetractableRoof,
+   	    		   List<NFL_Stadium>& stadiumsDateOpened,
+   	    		   NFL_Stadium*       stadiumPtr);
+
+/*************************************************************************
+ * FUNCTION RemoveFromLists
+ * 	This will remove a stadium object from the program's stadium lists.
+ *************************************************************************/
+void RemoveFromLists(List<NFL_Stadium>& stadiumsAlphabetical,
+   	    			 List<NFL_Stadium>& stadiumsTeamName,
+   	    			 List<NFL_Stadium>& stadiumsAFC,
+   	    			 List<NFL_Stadium>& stadiumsNFC,
+   	    			 List<NFL_Stadium>& stadiumsOpenRoof,
+   	    			 List<NFL_Stadium>& stadiumsRetractableRoof,
+   	    			 List<NFL_Stadium>& stadiumsDateOpened,
+   	    			 NFL_Stadium*       stadiumPtr);
+
+/*************************************************************************
  * FUNCTION AddStadium
  * 	This function allows an admin to add a new stadium to the program.
  *************************************************************************/
@@ -282,26 +306,23 @@ void AddStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 		   		Map<string, NFL_Stadium>& stadiumMap,
 		   		Graph<NFL_Stadium>&       stadiumGraph);
 
-void InsertToLists(List<NFL_Stadium>& stadiumsAlphabetical,
-   	    		   List<NFL_Stadium>& stadiumsTeamName,
-   	    		   List<NFL_Stadium>& stadiumsAFC,
-   	    		   List<NFL_Stadium>& stadiumsNFC,
-   	    		   List<NFL_Stadium>& stadiumsOpenRoof,
-   	    		   List<NFL_Stadium>& stadiumsRetractableRoof,
-   	    		   List<NFL_Stadium>& stadiumsDateOpened,
-   	    		   NFL_Stadium*       stadiumPtr);
-
-void RemoveFromLists(List<NFL_Stadium>& stadiumsAlphabetical,
-   	    			 List<NFL_Stadium>& stadiumsTeamName,
-   	    			 List<NFL_Stadium>& stadiumsAFC,
-   	    			 List<NFL_Stadium>& stadiumsNFC,
-   	    			 List<NFL_Stadium>& stadiumsOpenRoof,
-   	    			 List<NFL_Stadium>& stadiumsRetractableRoof,
-   	    			 List<NFL_Stadium>& stadiumsDateOpened,
-   	    			 NFL_Stadium*       stadiumPtr);
-
+/*************************************************************************
+ * FUNCTION AddTeam
+ * 	This function allows an admin to add a new team to an existing
+ * 	stadium within the program.
+ *************************************************************************/
 void AddTeam(Map<string, NFL_Stadium>& stadiumMap);
+
+/*************************************************************************
+ * FUNCTION ChangeTeam
+ * 	This function allows an admin to modify an existing team object.
+ *************************************************************************/
 void ChangeTeam(Map<string, NFL_Stadium>& stadiumMap);
+
+/*************************************************************************
+ * FUNCTION ChangeStadium
+ * 	This function allows an admin to modify an existing stadium.
+ *************************************************************************/
 void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   List<NFL_Stadium>& stadiumsTeamName,
 				   List<NFL_Stadium>& stadiumsAFC,
@@ -310,6 +331,26 @@ void ChangeStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   List<NFL_Stadium>& stadiumsRetractableRoof,
 				   List<NFL_Stadium>& stadiumsDateOpened,
 				   Map<string, NFL_Stadium>& stadiumMap);
+
+/*************************************************************************
+ * FUNCTION RemoveStadium
+ * -----------------------------------------------------------------------
+ * This function allows an admin to remove an existing stadium.
+ * -----------------------------------------------------------------------
+ * PRE-CONDITIONS -
+ * 	stadiumName     : The list to store all stadiums, sorted by stadium name.
+ * 	teamName        : The list to store all stadiums, sorted by team name.
+ * 	afcTeams        : The list to store all stadiums in the AFC.
+ * 	nfcTeams        : The list to store all stadiums in the NFC.
+ * 	openRoofs       : The list to store all stadiums with open roofs.
+ * 	retractableRoofs: The list to store all stadiums with retractable roofs.
+ * 	openingDate     : The list to store all stadiums, sorted by opening date.
+ * 	stadiumMap      : The map which has all stadiums stored.
+ * 	stadiumGraph    : The graph of all stadiums, used for trip planning.
+ *
+ * POST-CONDITIONS -
+ * 	The stadium will be removed from the program.
+ *************************************************************************/
 void RemoveStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   List<NFL_Stadium>& stadiumsTeamName,
 				   List<NFL_Stadium>& stadiumsAFC,
@@ -319,6 +360,11 @@ void RemoveStadium(List<NFL_Stadium>& stadiumsAlphabetical,
 				   List<NFL_Stadium>& stadiumsDateOpened,
 				   Map<string, NFL_Stadium>& stadiumMap,
 				   Graph<NFL_Stadium>&       stadiumGraph);
+
+/*************************************************************************
+ * FUNCTION RemoveTeam
+ * 	This function allows an admin to remove an existing team.
+ *************************************************************************/
 void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 		   	    List<NFL_Stadium>& stadiumsTeamName,
 		   	    List<NFL_Stadium>& stadiumsAFC,
@@ -328,14 +374,19 @@ void RemoveTeam(List<NFL_Stadium>& stadiumsAlphabetical,
 		   	    List<NFL_Stadium>& stadiumsDateOpened,
 		   	    Map<string, NFL_Stadium>& stadiumMap);
 
-void RemoveSouv( Map<string, Souvenir>& souvenirMap,
-					List<Souvenir>		&souvenirList);
+/*************************************************************************
+ * FUNCTION RemoveSouv
+ * 	This function allows an admin to remove an existing souvenir.
+ *************************************************************************/
+void RemoveSouv(Map<string, Souvenir>& souvenirMap,
+				List<Souvenir>&        souvenirList);
 
-void AddSouv( Map<string, Souvenir>& souvenirMap,
-		List<Souvenir>		&souvenirList);
-
-void ChangeSouv( Map<string, Souvenir>& souvenirMap,
-		List<Souvenir>		&souvenirList);
+/*************************************************************************
+ * FUNCTION AddSouv
+ * 	This function allows an admin to add a new souvenir to the program.
+ *************************************************************************/
+void AddSouv(Map<string, Souvenir>& souvenirMap,
+			List<Souvenir>&         souvenirList);
 
 /*************************************************************************
  * FUNCTION InstantiateStadium

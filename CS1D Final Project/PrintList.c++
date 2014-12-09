@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 
@@ -73,6 +73,3 @@ void PrintList(const List<NFL_Stadium>& printThis)
 
 	cout << endl << right;
 }
-
-
-

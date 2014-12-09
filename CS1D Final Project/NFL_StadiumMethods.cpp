@@ -4,7 +4,7 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
 #include"header.h"
@@ -386,11 +386,33 @@ string NFL_Stadium::print() const
 	return output.str();
 }
 
+/*************************************************************************
+ * FUNCTION !=
+ * -----------------------------------------------------------------------
+ * Overloaded to compare a stadiums name.
+ * -----------------------------------------------------------------------
+ * PRECONDITIONS -
+ * 	compareTo : The other stadium.
+ *
+ * POSTCONDITIONS -
+ * 	True if the two stadiums don't have the same name.
+ *************************************************************************/
 bool NFL_Stadium::operator!=(const NFL_Stadium& compareTo) const
 {
 	return stadium_name != compareTo.get_stadium_name();
 }
 
+/*************************************************************************
+ * FUNCTION ==
+ * -----------------------------------------------------------------------
+ * Overloaded to compare a stadiums name.
+ * -----------------------------------------------------------------------
+ * PRECONDITIONS -
+ * 	compareTo : The other stadium.
+ *
+ * POSTCONDITIONS -
+ * 	True if the two stadiums have the same name.
+ *************************************************************************/
 bool NFL_Stadium::operator==(const NFL_Stadium& compareTo) const
 {
 	return stadium_name == compareTo.get_stadium_name();
@@ -413,6 +435,17 @@ void NFL_Stadium::add_team(const Team& newTeam)
 	teamList.InsertBack(newTeam);
 }
 
+/*************************************************************************
+ * FUNCTION remove_team
+ * -----------------------------------------------------------------------
+ * Removes a team from the stadium.
+ * -----------------------------------------------------------------------
+ * PRECONDITIONS -
+ * 	toRemove : An iterator pointing at the team to remove.
+ *
+ * POSTCONDITIONS -
+ * 	Removes a team from the stadium.
+ *************************************************************************/
 void NFL_Stadium::remove_team(List<Team>::Iterator toRemove)
 {
 	teamList.Erase(toRemove);

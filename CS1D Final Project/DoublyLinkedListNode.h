@@ -4,10 +4,9 @@
  * AUTHORS     : James Marcu & Phillip Doyle
  * STUDENT IDs : 374443      & 911579
  * CLASS       : CS1D
- * SECTION     : TTh 3:30 AM
+ * SECTION     : TTh 3:30 PM
  * DUE DATE    : 12/9/2014
  *************************************************************************/
-
 #ifndef DOUBLYLINKEDLISTNODE_H_
 #define DOUBLYLINKEDLISTNODE_H_
 
@@ -39,7 +38,8 @@ class DLLNode
 		void SetNext(node* nextNode);      //Sets the value of next.
 		void SetPrev(node* prevNode);      //Sets the value of prev.
 		void SetElem(const ElemType& data);//Sets the value of elem.
-		ElemType& ModElem();
+		ElemType& ModElem();               //Returns a non-const reference
+		                                   //to elem.
 
 	private:
 		node*    next;//Points to the next node in the list.
@@ -186,6 +186,17 @@ void DLLNode<ElemType>::SetElem(const ElemType& newElem)
 	elem = *elemPtr;
 }
 
+/*************************************************************************
+ * FUNCTION ModElem
+ * ______________________________________________________________________
+ * Returns a non-constant reference to the element to enable editing.
+ * ______________________________________________________________________
+ * PRE-CONDITIONS -
+ * 	<none>
+ *
+ * POST-CONDITIONS -
+ * 	Returns a non-constant reference to the element.
+ *************************************************************************/
 template <class ElemType>
 ElemType& DLLNode<ElemType>::ModElem()
 {
