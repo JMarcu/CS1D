@@ -405,11 +405,11 @@ enum	add_Type{
 		******************************************************************/
 		if(startInCity == 1)
 		{
-			start = &(stadiumMap.Find("Qualcomm Stadium")->GetValue());
+			start = &(stadiumMap.Find("Levi\'s Stadium")->GetValue());
 		}
 		else if(startInCity == 2)
 		{
-			start = &(stadiumMap.Find("Levi\'s Stadium")->GetValue());
+			start = &(stadiumMap.Find("Qualcomm Stadium")->GetValue());
 		}
 		else
 		{

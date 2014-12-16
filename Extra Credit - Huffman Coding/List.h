@@ -1,11 +1,10 @@
 /*************************************************************************
- * CS1D Final Project
- * -----------------------------------------------------------------------
- * AUTHORS     : James Marcu & Phillip Doyle
- * STUDENT IDs : 374443      & 911579
- * CLASS       : CS1D
- * SECTION     : TTh 3:30 PM
- * DUE DATE    : 12/9/2014
+ * AUTHOR       : James Marcu
+ * STUDENT ID   : 374443
+ * EXTRA CREDIT : Huffman Coding
+ * CLASS        : CS1D
+ * SECTION      : TTh 3:30 AM
+ * DUE DATE     : 12/15/14
  *************************************************************************/
 #ifndef LIST_H_
 #define LIST_H_
@@ -28,7 +27,7 @@ public:
 	Iterator  End()   const;//Returns an iterator for the second element.
 	int       Size()  const;//Returns the number of elements.
 	bool      Empty() const;//Returns true if the list is empty.
-	const ElemType& Front();//Returns a reference to the element.
+	ElemType& Front();//Returns a reference to the element.
 	Iterator  Search(const ElemType& key) const;//Returns an iterator to
 	                                            //the element which matches
 	                                            //key, or the end node if
@@ -253,7 +252,7 @@ typename List<ElemType>::Iterator List<ElemType>::Search(const ElemType& key) co
  * 	Returns a reference to the first element.
  *************************************************************************/
 template <typename ElemType>
-const ElemType& List<ElemType>::Front()
+ElemType& List<ElemType>::Front()
 {
 	return D.Front();
 }

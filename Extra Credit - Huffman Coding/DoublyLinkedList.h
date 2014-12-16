@@ -1,11 +1,10 @@
 /*************************************************************************
- * CS1D Final Project
- * -----------------------------------------------------------------------
- * AUTHORS     : James Marcu & Phillip Doyle
- * STUDENT IDs : 374443      & 911579
- * CLASS       : CS1D
- * SECTION     : TTh 3:30 PM
- * DUE DATE    : 12/9/2014
+ * AUTHOR       : James Marcu
+ * STUDENT ID   : 374443
+ * EXTRA CREDIT : Huffman Coding
+ * CLASS        : CS1D
+ * SECTION      : TTh 3:30 AM
+ * DUE DATE     : 12/15/14
  *************************************************************************/
 #ifndef DOUBLYLINKEDLIST_H_
 #define DOUBLYLINKEDLIST_H_
@@ -35,7 +34,7 @@ class DoublyLinkedList
 		                               //in the list, NOT the sentinal node.
 		bool  IsEmpty() const;         //Returns true if the list is empty.
 		int   Size()    const;         //Returns the size of the list.
-		const ElemType& Front() const; //Returns the element of the first
+		ElemType& Front() const; //Returns the element of the first
 		                               //node.
 		const ElemType& Back()  const; //Returns the element of the last
 		                               //node.
@@ -169,9 +168,9 @@ int DoublyLinkedList<ElemType>::Size() const
  * 	Returns the element of the front node in the list.
  *************************************************************************/
 template <class ElemType>
-const ElemType& DoublyLinkedList<ElemType>::Front() const
+ElemType& DoublyLinkedList<ElemType>::Front() const
 {
-	return head->GetNext()->GetElem();
+	return head->GetNext()->ModElem();
 }
 
 /*************************************************************************

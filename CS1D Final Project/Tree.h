@@ -112,6 +112,21 @@ class Tree
 		TreeNode<TYPE>* Search(const TYPE& key) const;//Returns a pointer to
 		                                              //the node containing
 		                                              //the key
+		void Print(TreeNode<TYPE>* start) const
+		{
+			cout << "start: " << start->GetElem()->GetElem().get_location() << endl;
+			for(int i = 0; i < start->ChildCount(); ++i)
+			{
+				cout << start->GetChildren()[i]->GetElem()->GetElem().get_location();
+				cout << ", ";
+			}
+			cout << endl;
+
+			for(int i = 0; i < start->ChildCount(); ++i)
+			{
+				Print(start->GetChildren()[i]);
+			}
+		}
 
 	   /*******************************************
 		* * * *          MUTATORS           * * * *

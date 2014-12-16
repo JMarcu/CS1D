@@ -537,6 +537,7 @@ const Vertex<ElemType>* Graph<ElemType>::Dijkstra(const Vertex<ElemType>*       
 	 *********************************************************************/
 	while(findNextDest)
 	{
+//		cerr << "\nTOP: " << activeVertices.Size() << endl;
 		//Start at the beginning of the active vertices.
 		activeIt    = activeVertices.Begin();
 
@@ -561,8 +562,8 @@ const Vertex<ElemType>* Graph<ElemType>::Dijkstra(const Vertex<ElemType>*       
 
 		while(activeIt != activeVertices.End())
 		{
-//			cout << "ACTIVE: " << (*activeIt)->GetElem().get_stadium_name() << endl;
-
+//			cerr << "END? " << (activeIt != activeVertices.End()) << endl;
+//			cerr << "ACTIVE: " << (*activeIt)->GetElem().get_location() << endl;
 			//Set the stillActive flag to false.
 			stillActive = false;
 
@@ -608,9 +609,19 @@ const Vertex<ElemType>* Graph<ElemType>::Dijkstra(const Vertex<ElemType>*       
 			 *************************************************************/
 			if(!stillActive)
 			{
+//				cerr << "REMOVE: " << (*activeIt)->GetElem().get_location() << endl;
 				removeFromActive = (*activeIt);
 				++activeIt;
-				activeVertices.Erase(removeFromActive);
+				if(activeIt == activeVertices.End())
+				{
+					activeVertices.Erase(removeFromActive);
+					activeIt = activeVertices.End();
+				}
+				else
+				{
+					activeVertices.Erase(removeFromActive);
+				}
+//				cerr << "END? " << (activeIt != activeVertices.End()) << endl;
 			}
 			else
 			{
@@ -629,6 +640,7 @@ const Vertex<ElemType>* Graph<ElemType>::Dijkstra(const Vertex<ElemType>*       
 		 *        active vertices, and the path tree. Add the edge we
 		 *        took to get there to the list of visited edges.
 		 *****************************************************************/
+//		cerr << "NEW: " << newVertex->GetElem().get_location() << endl;
 		visitedVertices.InsertBack(newVertex);
 		activeVertices.InsertBack(newVertex);
 		pathTree.Add(newVertex, pathTree.Search(parentVertex));
@@ -649,9 +661,9 @@ const Vertex<ElemType>* Graph<ElemType>::Dijkstra(const Vertex<ElemType>*       
 			 *		  last element in the list, the most recently added
 			 *		  edge.
 			 *************************************************************/
+			pathTree.Print(pathTree.GetRoot());
+			cin.ignore(1000, '\n');
 			treePtr = pathTree.Search(newVertex);
-			edgeIt = visitedEdges.End();
-			--edgeIt;
 
 			/*************************************************************
 			 * PROC - Pop all existing contents of vertexStack into
@@ -690,16 +702,7 @@ const Vertex<ElemType>* Graph<ElemType>::Dijkstra(const Vertex<ElemType>*       
 			 *************************************************************/
 			while(treePtr != pathTree.GetRoot())
 			{
-				//Find the edge we used to get to the parent vertex in
-				//the path tree.
-				while(!(*edgeIt)->IsIncidentTo(treePtr->GetElem()) ||
-				      !(*edgeIt)->IsIncidentTo(treePtr->GetParent()->GetElem()))
-				{
-					--edgeIt;
-				}
-
-				//Push the edge and vertex to the stacks.
-				edgeStack.Push((*edgeIt));
+				edgeStack.Push(adjacencyMatrix[treePtr->GetElem()->GetPosition()][treePtr->GetParent()->GetElem()->GetPosition()]);
 				vertexStack.Push(treePtr->GetElem());
 
 				//Move up the tree

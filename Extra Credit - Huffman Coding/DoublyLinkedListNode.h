@@ -1,11 +1,10 @@
 /*************************************************************************
- * CS1D Final Project
- * -----------------------------------------------------------------------
- * AUTHORS     : James Marcu & Phillip Doyle
- * STUDENT IDs : 374443      & 911579
- * CLASS       : CS1D
- * SECTION     : TTh 3:30 PM
- * DUE DATE    : 12/9/2014
+ * AUTHOR       : James Marcu
+ * STUDENT ID   : 374443
+ * EXTRA CREDIT : Huffman Coding
+ * CLASS        : CS1D
+ * SECTION      : TTh 3:30 AM
+ * DUE DATE     : 12/15/14
  *************************************************************************/
 #ifndef DOUBLYLINKEDLISTNODE_H_
 #define DOUBLYLINKEDLISTNODE_H_

@@ -1,0 +1,83 @@
+******************************************************
+*   PROGRAMMED BY : James Marcu
+*   STUDENT ID    : 374443
+*   CLASS         : CS1D
+*   SECTION       : TTh 3:30 PM
+*   ASSIGNMENT #14: Extra Credit: Huffman Coding
+******************************************************
+
+Huffman Codes for the Alphabet - 
+'F' = 11110011010
+'o' = 1010
+'u' = 1111011
+'r' = 0100
+' ' = 00
+'s' = 10010
+'c' = 110101
+'e' = 011
+'a' = 1011
+'n' = 11111
+'d' = 11001
+'v' = 100110
+'y' = 1000000
+'g' = 110001
+'f' = 110100
+'t' = 1110
+'h' = 0101
+'b' = 1100000
+'i' = 11011
+',' = 100001
+'w' = 100111
+'L' = 11110011000
+'p' = 1111010
+'l' = 10001
+'m' = 1100001
+'q' = 11110011100
+'.' = 1000001
+'N' = 11110011101
+'W' = 1111001010
+'-' = 1111000
+'I' = 1111001111
+'B' = 11110011011
+'T' = 1111001011
+'k' = 111100100
+'G' = 11110011001
+
+The Huffman Tree -
+Level 0: 1529 
+Level 1: 627 902 
+Level 2:  -286 341 388 514 
+Level 3: 168 e-173 186 202 237 277 
+Level 4: r-83 h-85 90 96 o-98 a-104 112 125 t-128 149 
+Level 5: 45 l-45 s-46 50 54 d-58 59 i-66 72 n-77 
+Level 6: 21 ,-24 v-24 w-26 27 g-27 f-28 c-31 31 41 
+Level 7: y-10 .-11 b-13 m-14 --15 16 p-20 u-21 
+Level 8: 7 9 
+Level 9: k-3 4 4 5 
+Level 10: W-2 T-2 2 2 2 I-3 
+Level 11: L-1 G-1 F-1 B-1 q-1 N-1 
+
+Now Compressing the File...
+* * * *Compression Complete* * * *
+
+The Decompressed File- 
+Four score and seven years ago our fathers brought forth on this continent, a 
+new nation, conceived in Liberty, and dedicated to the proposition that all men 
+are created equal. Now we are engaged in a great civil war, testing whether that 
+nation, or any nation so conceived and so dedicated, can long endure. We are met 
+on a great battle-field of that war. We have come to dedicate a portion of that 
+field, as a final resting place for those who here gave their lives that that 
+nation might live. It is altogether fitting and proper that we should do this. 
+But, in a larger sense, we can not dedicate -- we can not consecrate -- we can 
+not hallow -- this ground. The brave men, living and dead, who struggled here, 
+have consecrated it, far above our poor power to add or detract. The world will 
+little note, nor long remember what we say here, but it can never forget what 
+they did here. It is for us the living, rather, to be dedicated here to the 
+unfinished work which they who fought here have thus far so nobly advanced. It 
+is rather for us to be here dedicated to the great task remaining before us -- 
+that from these honored dead we take increased devotion to that cause for which 
+they gave the last full measure of devotion -- that we here highly resolve that 
+these dead shall not have died in vain -- that this nation, under God, shall 
+have a new birth of freedom -- and that government of the people, by the people, 
+for the people, shall not perish from the earth.people, for the people, shall 
+not perish from the earth.
